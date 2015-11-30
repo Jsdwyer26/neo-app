@@ -1,0 +1,30 @@
+.navbar {
+	font-color: white;
+	margin-bottom: 0;
+}
+
+.jumbotron {
+	height: 300px;
+	top: 50px;
+	margin-bottom: 0;
+}
+#main-body{
+background-color: rgba(0, 0, 0, .8);	
+padding-top: 8%;
+padding-bottom: 50px;
+}
+
+#main-intro {
+	color: white;
+	border: white dotted;
+	padding: 100px;
+	background-color: rgba(0, 0, 0, .5);
+}
+
+#signup-form {
+	margin-top: 40px;
+}
+#signup-page {
+	background-color: rgba(0, 0, 0, .5);
+}
+}
