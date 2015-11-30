@@ -25,7 +25,11 @@ app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');	
 
 //connect to mongodb
-mongoose.connect('mongodb://localhost/neo-app'); 
+mongoose.connect(
+	process.env.MONGOLAB_URI ||
+	process.env.MONGOHQ_URL ||
+	'mongodb://localhost/neo-app'
+	); 
 
 //require Neo model
 var Neo=require('./views/models/neo');
@@ -95,6 +99,6 @@ app.get(baseUrl, function	(req, res){
 
 
 //start server 
-app.listen(4000, function() {	
+app.listen(process.env.PORT || 4000, function() {	
 	console.log('listening on 4000');
 });
