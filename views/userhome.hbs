@@ -1,6 +1,6 @@
 {{> header}}
 
-   <div class="container">
+   <div class="container-fluid" id="userhome-page">
     <div class = "row">
       <div class= "col-md-6 col-md-offset-3">
         <h1 class="text-center">Search</h1>
@@ -8,7 +8,6 @@
       </div>
       <div class="col-md-6 col-md-offset-3" id="results">
          <ul>
-      
         <!-- hbs template -->
         <!-- <script id="neos-template" type="text/x-handlebars-template">
           {{#each neos}}
@@ -18,15 +17,14 @@
         </script>
          -->
         </ul> 
-
       </div> <!-- closing results -->
-
     </div><!-- closing row -->
-    </div> <!-- closing container --> 
+    
+    
     <!-- chart -->
-    <canvas id="myChart" width="400" height="300"></canvas>
-
-
+    <canvas id="myChart" width="400" height="600"></canvas>
+      
+  </div> <!-- closing container --> 
 
   <!-- jquery -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>

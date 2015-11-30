@@ -25,6 +25,21 @@ padding-bottom: 50px;
 	margin-top: 40px;
 }
 #signup-page {
-	background-color: rgba(0, 0, 0, .5);
+	background-color: rgba(0, 0, 0, .6);
+	padding-bottom: 300px;
+	padding-top: 100px;
 }
+#signup-header{
+	color: white;
+}
+
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    width: 400px;
+}
+#userhome-page {
+	background-color: rgba(0, 0, 0, .6);
+	color: white;
 }

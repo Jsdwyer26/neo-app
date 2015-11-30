@@ -61,7 +61,7 @@ $( function (){
 		function getProps() {
 		//saving each property as an array: if search date is more than 1 day at a time
 		for(var prop in allNeosObj) {
-			
+
 			function getPropsToShow(propToShow){
 			//gets each property out of each date's([prop]) neos' 
 				for(var i =0; i < allNeosObj[prop].length; i++) {
@@ -115,7 +115,7 @@ $( function (){
 		    },
 		    {
 		        value: diameterFt[2],
-		        color: "rgb(0, 0, 255)",
+		        color: "rgb(0, 0, 200)",
 		        highlight: "#FFC870",
 		        label: "asteroid " + names[2]
 		    },
@@ -166,11 +166,10 @@ $( function (){
 
 		//pie chart
 		var myPieChart = new Chart(ctx).Pie(dataPie);
+		
 		//var scatterChart = new Chart(ctx).Scatter(dataScatter);
 		
 	});/*closing NASAget request*/	
-
-
 
 	//Get Req. to my server
 	$.get('/api/neos', function (data){
