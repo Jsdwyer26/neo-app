@@ -6,15 +6,23 @@ $( function (){
 
 	//empty array w/ an empty object to hold all neo data from NASA API
 	var allNeosArr = [];
-	var allNeosObj = [];	
+	var allNeosObj = [];
 
+	//get element count, which can be asteroid count per day if querying in one day time period
+	var dailyNeoCount;	
+
+	//property names
 	var names = [],
 		magnitudes = [],
 		missDists = [],
-		diameterFt = [];
+		diameterFt = [],
+		apprchDate = [],
+		speed = [],
+		speeds = {};
+		
 
 
-	//momentjs
+	//MOMENT
 	moment().format();
 	//save dates
 	var today = new moment().format("YYYY-MM-DD"),
@@ -27,25 +35,29 @@ $( function (){
 		oneWeek = moment().add(7, 'day').format("YYYY-MM-DD");	
 
 	//CHART 	
-	// Get context with jQuery - using jQuery's .get() method.
+	// Get context
 	var ctx = $("#myChart").get(0).getContext("2d");
-	// This will get the first returned node in the jQuery collection.
+	// This gets the first returned node in the jQuery collection.
 	var myNewChart = new Chart(ctx);	
 	
+	
+
 	//url's
 	var baseUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-11-27&end_date=2015-11-30&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
 	var rootUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + today + "&end_date=" + today + "&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
 
 	//HBS
 	//compile hb template
-	/*var source = $('#neos-template').html();
-	var template = Handlebars.compile(source);*/
+	var source = $('#neos-template').html();
+	var template = Handlebars.compile(source);
 
 	var render = function() {
+		
 		$results.empty();
 		//pass in data to render in the template
 		var neoHtml = template({neos: allNeos });
 		$results.append(neoHtml);
+		
 	};
 
 	//get neos from NASA api
@@ -56,47 +68,64 @@ $( function (){
 		allNeosObj = data.near_earth_objects;
 		console.log(allNeosObj);
 
+		//get element count is sibling of near_earth_objects array, so just saving it to a different var
+		dailyNeoCount = data.element_count;
+		$results.append('<h3 class="text-center"> The daily neo count is: ' + dailyNeoCount + '</h3>');
+
 
 		//function to get desired property from neo api
 		function getProps() {
 		//saving each property as an array: if search date is more than 1 day at a time
-		for(var prop in allNeosObj) {
+				for(var prop in allNeosObj) {
 
-			function getPropsToShow(propToShow){
-			//gets each property out of each date's([prop]) neos' 
-				for(var i =0; i < allNeosObj[prop].length; i++) {
-					
-					//path to info in allNeos obj for properties
-					neoInfo = allNeosObj[prop][i];
-					
-					switch (propToShow) {
-					case "names":
-						//names.prop = neoInfo.name;
-						names.push(neoInfo.name);
-					
-					case "magnitude":	
-						//allMagnitudes =  allNeosObj[prop][i].absolute_magnitude_h;
-						magnitudes.push(neoInfo.absolute_magnitude_h);
-					
-					case "missDist":
-						//allMissDist = neoInfo.close_approach_data[0].miss_distance.miles;
-							missDists.push(neoInfo.close_approach_data[0].miss_distance.miles);
-							//console.log(missDists);
-					
-					case "diameter":
-							diameterFt.push(neoInfo.estimated_diameter.feet.estimated_diameter_max);
-							console.log(diameterFt);
-					} 	/*closing switch*/
-				}	/*closing for*/
-			}	/*closing getPropsToShow*/
-			
-			getPropsToShow("names","magnitude"); 
-			}  /*closing for in*/
+					function getPropsToShow(propToShow){
+					//gets each property out of each date's([prop]) neos' 
+						for(var i =0; i < allNeosObj[prop].length; i++) {
+							
+							//path to info in allNeos obj for properties
+							neoInfo = allNeosObj[prop][i];
+							
+							switch (propToShow) {
+							case "names":
+								//names.prop = neoInfo.name;
+								names.push(neoInfo.name);
+							
+							case "magnitude":	
+								//allMagnitudes =  allNeosObj[prop][i].absolute_magnitude_h;
+								magnitudes.push(neoInfo.absolute_magnitude_h);
+							
+							case "missDist":
+								//allMissDist = neoInfo.close_approach_data[0].miss_distance.miles;
+								missDists.push(neoInfo.close_approach_data[0].miss_distance.miles);
+								//console.log(missDists);
+							
+							case "diameter":
+								diameterFt.push(neoInfo.estimated_diameter.feet.estimated_diameter_max);
+								//console.log(diameterFt);
+							case "approachDate":
+								apprchDate.push(neoInfo.close_approach_data[0].close_approach_date);
+								
+							case "speed":
+								var neoSpeedsInfo = neoInfo.close_approach_data[0].relative_velocity;
+								//adding to speed array; getting speed at mph 
+								speed.push(neoSpeedsInfo.miles_per_hour);
+								//as speed object
+								speeds.kmps = neoSpeedsInfo.kilometers_per_second;
+								speeds.kmph = neoSpeedsInfo.kilometers_per_hour;
+								speeds.mph = neoSpeedsInfo.miles_per_hour;	
+								//console.log(speeds);		
+							} 	/*closing switch*/
+						}	/*closing for*/
+					}	/*closing getPropsToShow*/
+				
+					getPropsToShow("names","missDist", "approachDate", "speed"); 
+				}  /*closing for in*/
 		}	/*closing getProps*/
 		
 		//Call getProps
 		getProps();	
-		//render()
+		//render();
+		
 
 		//CHART
 		//chart data
@@ -133,39 +162,9 @@ $( function (){
 		    }
 		];
 
-		var dataScatter = [
-	    {
-	      label: 'My First dataset',
-	      strokeColor: '#F16220',
-	      pointColor: '#F16220',
-	      pointStrokeColor: '#fff',
-	      data: [
-	        { x: 19, y: 65 }, 
-	        { x: 27, y: 59 }, 
-	        { x: 28, y: 69 }, 
-	        { x: 40, y: 81 },
-	        { x: 48, y: 56 }
-	      ]
-	    },
-	    {
-	      label: 'My Second dataset',
-	      strokeColor: '#007ACC',
-	      pointColor: '#007ACC',
-	      pointStrokeColor: '#fff',
-	      data: [
-	        { x: 19, y: 75, r: 4 }, 
-	        { x: 27, y: 69, r: 7 }, 
-	        { x: 28, y: 70, r: 5 }, 
-	        { x: 40, y: 31, r: 3 },
-	        { x: 48, y: 76, r: 6 },
-	        { x: 52, y: 23, r: 3 }, 
-	        { x: 24, y: 32, r: 4 }
-	      ]
-	    }
-	  ];
 
 		//pie chart
-		var myPieChart = new Chart(ctx).Pie(dataPie);
+		var myPolarAreaChart = new Chart(ctx).PolarArea(dataPie);
 		
 		//var scatterChart = new Chart(ctx).Scatter(dataScatter);
 		
