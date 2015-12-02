@@ -63,7 +63,7 @@ app.get('/', function (req, res){
 });*/
 app.get('/signup', function (req, res){
   res.render('signup');
-})
+});
 
 //sign up new user, then log them in
 //hash and salt password, saves new user to db
@@ -73,11 +73,11 @@ app.post('/signup', function (req, res){
   } else {
     User.register(new User({ username: req.body.username}), req.body.password, 
         function (err, newUser){
-        passport.authenticate('local')(req, res, function () {
+          passport.authenticate('local')(req, res, function () {
           //res.send("signed up :D ");
           res.redirect('/userhome');
-        });
-      }
+          });
+        }
     );
   }
 });

@@ -2,27 +2,42 @@
 
    <div class="container-fluid" id="userhome-page">
     <div class = "row">
-      <div class="col-md-12" id="results">
+      <div class="col-md-12" id="results">   <!-- <h2>Welcome, {{user.username}}!</h2> -->
         <script id="neos-template" type="text/x-handlebars-template">
           <h2>Welcome {{user.username}}</h2>
-          <p>This is your profile page</p>
+          <p>This is your profile</p>
+
           </script> 
         <!-- hbs template -->
     
-        
           <h2>Welcome, {{user.username}}!</h2>
           <p>This is your profile page</p>
                 
-        
-        
 
       </div> <!-- closing results -->
     </div><!-- closing row -->
     
     
     <!-- chart -->
-    <canvas id="myChart" width="400" height="600"></canvas>
-    
+    <canvas id="myChart" width="400" height="800"></canvas>
+
+    <!-- <h3>Am I here?</h3> -->
+    <nav class="navbar navbar-inverse nav-justified navbar-fixed-bottom">
+      <div class="container">
+        <ul class= "nav navbar-nav">
+          <li class="dropup">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Today's Properties </span> <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+            <!-- Dropdown menu links -->
+              <li><a href="#">Filler-Text</a></li>
+              <li><a href="#">Filler-Text</a></li>
+              <li><a href="#">Filler-Text</a></li>
+            </ul>
+          </li>  
+          </ul>
+        </div>
+    </div>
+  </nav>
 
   </div> <!-- closing container --> 
 
