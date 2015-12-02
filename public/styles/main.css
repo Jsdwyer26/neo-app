@@ -43,3 +43,7 @@ canvas {
 	background-color: rgba(0, 0, 0, .6);
 	color: white;
 }
+
+#dailyCount {
+	padding-top: 30px;
+}

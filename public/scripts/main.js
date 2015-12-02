@@ -37,6 +37,7 @@ $( function (){
 	//CHART 	
 	// Get context
 	var ctx = $("#myChart").get(0).getContext("2d");
+	
 	// This gets the first returned node in the jQuery collection.
 	var myNewChart = new Chart(ctx);	
 	
@@ -55,7 +56,7 @@ $( function (){
 		
 		$results.empty();
 		//pass in data to render in the template
-		var neoHtml = template({neos: allNeos });
+		//var neoHtml = template({neos: dailyNeoCount });
 		$results.append(neoHtml);
 		
 	};
@@ -70,7 +71,7 @@ $( function (){
 
 		//get element count is sibling of near_earth_objects array, so just saving it to a different var
 		dailyNeoCount = data.element_count;
-		$results.append('<h3 class="text-center"> The daily neo count is: ' + dailyNeoCount + '</h3>');
+		$results.append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 
 
 		//function to get desired property from neo api
@@ -171,13 +172,12 @@ $( function (){
 	});/*closing NASAget request*/	
 
 	//Get Req. to my server
-	$.get('/api/neos', function (data){
+	$.get('/api/dailyneos', function (data){
 		console.log(data);
-	 	allNeos = data.neos;	/*neos = key for data.neos--the data in our server*/
+	 	allNeos = data.userName;	//neos = key for data.neos--the data in our server
 
-			//var neosHtml = template({ neos : allNeos });	/*our data from server made into an object*/
+			var neosHtml = template({ neos : allNeos });	//our data from server made into an object
 			//$('#neos-list').append(neosHtml);	
 	});	
-
 
  });/*closing load brace*/
