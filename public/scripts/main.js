@@ -42,11 +42,8 @@ $( function () {
 		day7 = moment().add(6, 'day').format("YYYY-MM-DD"),
 		toOneWeek = moment().add(7, 'day').format("YYYY-MM-DD");
 
-	//CHART 	
-	// Get context
+	//chartjs  	
 	var ctx = $("#myChart").get(0).getContext("2d");
-	
-	// This gets the first returned node in the jQuery collection.
 	var myNewChart = new Chart(ctx);	
 
 	//url's
@@ -64,9 +61,9 @@ $( function () {
 					for(var i =0; i < allNeosObj.length; i++) {
 						
 						//path to info in allNeos obj for properties
-						neoInfo = allNeosObj[i][today];
+						neoInfo = allNeosObj[i][today][i];
 						console.log(neoInfo);
-						console.log(neoInfo[i].name);
+						console.log(neoInfo.name);
 						
 						//gets each id for the neo. seperate from switch but prop is sibling of props in switch
 						neoId = neoInfo.neo_reference_id;
@@ -75,18 +72,16 @@ $( function () {
 						//value variable for chart
 						var value;
 						
-						if (propsToShow.indexOf("names") > -1) {
-						
-								//value = neoInfo.name;
-								value = neoInfo[i]["name"];
-								
-						} else if (propsToShow.indexOf("magnitude") > -1) {
-						
+						/*if (propsToShow.indexOf("names") > -1) {
+								//console.log(neoInfo.name);
+								value = neoInfo.name;
+								console.log(value) }*/
+						if (propsToShow.indexOf("magnitude") > -1) {
 								value = neoInfo.absolute_magnitude_h;
-
+								console.log(value);
 						}  else if (propsToShow.indexOf("missDist") > -1) {
 								value = neoInfo.close_approach_data[0].miss_distance.miles;
-
+								console.log(value);
 						}	else if (propsToShow.indexOf("diameter") > -1) { 
 								value = neoInfo.estimated_diameter.feet.estimated_diameter_max;
 
@@ -112,10 +107,36 @@ $( function () {
 		for(var prop in allNeosObj) {
 			//console.log(allNeosObj);
 			getPropsToShow(["names","missDist", "approachDate", "speed"]); 
-			
 		}
-	}		
+	}	
 
+	//2 FUNCTIONS HERE TO BUILD CHART
+	   	//I. function to arrangeChart and render chart with data(x,y chart cordinates)
+	   		//function makeChart(x, y) {
+
+	   		//};
+
+	   		//function make
+
+	   //II. function to set chart w/jquery selector on chart category btns, callsback function makeChart(I. function)
+			//want it to be so y cordinate stays constant with data as asteroid "name"
+	   		//x cordinate should be the property that is dynamically changed...so what do i put as the css selector?
+	   		//function setChart(){$('#magnitude').on("click", function () { alert("clicked magnitude")} }
+	   			//boiler function
+			   	function setChart() {
+				   		$('#magnitude').on('click', function(){
+				   			alert('clicked magnitude');
+				   		});
+				   		$('#diameter').on('click', function(){
+				   			alert('clicked diameter');
+				   		});
+				   		$('#velocity').on('click', function (){
+				   			alert('clicked on velocity');
+				   		});
+			   		}
+			   	setChart();
+	
+	
 	//Get req. to my server for username info.
 	$.get('/api/dailyneos', function (data){
 	 	//get username to render on view
@@ -128,8 +149,7 @@ $( function () {
 
 	//get neos from NASA api
 	$.get(rootUrl, function (data){ 
-		//As an object; w/key as the "searched" date
-		//allNeosObj = data.near_earth_objects; 
+		//saving NASA data to empty array
 		allNeosObj.push(data.near_earth_objects);
 		console.log(allNeosObj);
 		
@@ -141,18 +161,17 @@ $( function () {
 		
 		//Call getProps
 		getProps();	
-		
 		//Make chart right after calling getProps
 		//pie chart
-		var myPieChart = new Chart(ctx).Pie(dataPie);
+		var myChart = new Chart(ctx).Doughnut(dataPie);
 		
 		//render();
  
 	});/*closing NASA get request*/	
 	
 
-	$('#magnitude').on("click", function () {
+	/*$('#magnitude').on("click", function () {
 		alert("clicked");
-	});
+	});*/
 
 });/*closing load brace*/
