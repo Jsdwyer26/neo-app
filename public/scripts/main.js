@@ -40,8 +40,7 @@ $( function () {
 	    var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
 	    return (c);
 	}
-	rainbow(1, 2);
-	
+	console.log(randomColor());
 
 	//MOMENT
 	moment().format();
@@ -96,12 +95,12 @@ $( function () {
 				
 				dataPie.push({
 					value: value,
-					color:"rgb(255, 0, 0)",
+					color: randomColor(),
 					highlight: "#FF5A5E",
 					label: "asteroid " + neo.name
 				});
 			});
-			//getPropsToShow(["names","missDist", "approachDate", "speed"]); 
+		
 		});
 		console.log(dataPie);
 	}
@@ -115,7 +114,7 @@ $( function () {
 		var neosHtml = template({ neos : allNeos });
 	});	
 
-
+	var myDoughnutChart;
 	//get neos from NASA api
 	$.get(rootUrl, function (data){ 
 		//saving NASA data to empty array
@@ -132,22 +131,24 @@ $( function () {
 		buildData("speed");	
 		
 		//Make chart right after calling getProps
-		var myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
+		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
 		
 		$('#myChart').on('click', function (e){
     		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
     		// => activePoints is an array of segments on the canvas that are at the same position as the click event.
-			console.log(activePoints);
+			console.log(activePoints[0].label);
 		});
 		//render();
  
 	});/*closing NASA get request*/	
 	
+	//jQuery for selecting Property to show
 	$('.neo-prop').on('click', function (e){
+		myDoughnutChart.destroy();
 		var property = $(this).attr('data-prop');
-		//console.log(property);
 		//build data on jQuery click
 		buildData(property);
+		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
 	});
 
 

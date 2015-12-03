@@ -1,8 +1,11 @@
+/*Header.hbs; partial*/
 .navbar {
 	font-color: white;
 	margin-bottom: 0;
 }
 
+
+/*Index*/
 .jumbotron {
 	height: 300px;
 	top: 50px;
@@ -13,7 +16,6 @@ background-color: rgba(0, 0, 0, .8);
 padding-top: 8%;
 padding-bottom: 50px;
 }
-
 #main-intro {
 	color: white;
 	border: white dotted;
@@ -21,6 +23,8 @@ padding-bottom: 50px;
 	background-color: rgba(0, 0, 0, .5);
 }
 
+
+/*Signup page*/
 #signup-form {
 	margin-top: 40px;
 }
@@ -33,6 +37,8 @@ padding-bottom: 50px;
 	color: white;
 }
 
+
+/*Userhome*/
 canvas {
     padding: 0;
     margin: auto;
