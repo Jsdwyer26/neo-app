@@ -14,10 +14,10 @@ $( function () {
 	//get asteroid id...for user to save
 	var neoId;	
 
-	/*allNeoInfo = {"neoId": [ ], "allNeoContent": [ ]  };*/
-
 	//property names for chart
 	var dataPie =[];
+
+
 	
 	//function to generate random, vibrant colors. 
 	function rainbow(numOfSteps, step) {
@@ -41,16 +41,7 @@ $( function () {
 	    return (c);
 	}
 	rainbow(1, 2);
-
-	/*var names = [],
-		magnitudes = [],
-		missDists = [],
-		diameterFt = [],
-		apprchDate = [],
-		speed = [],
-		speeds = {};*/
-		
-
+	
 
 	//MOMENT
 	moment().format();
@@ -77,23 +68,18 @@ $( function () {
 	var source = $('#neos-template').html();
 	var template = Handlebars.compile(source);
 
-	function keepMakingCharts(arr, numVal){
-		while (arr.length < numVal) {
-			
-		}
-	}
-
 	//new function
 	function buildData(prop) {
+		//clear array dataset
+		dataPie = [];
+
 		allNeosObj.forEach(function (day) {
-			
 			var todaysNeos = day[today];
 			
 			todaysNeos.forEach(function (neo){
 				var value;
 				if (prop === "diameter") {
 					value = neo.estimated_diameter.feet.estimated_diameter_max;
-					console.log(value); 
 				
 				} else if(prop === "magnitude") {
 					value = neo.absolute_magnitude_h;
@@ -119,42 +105,14 @@ $( function () {
 		});
 		console.log(dataPie);
 	}
-
-
-	//2 FUNCTIONS HERE TO BUILD CHART
-	   	//I. function to arrangeChart and render chart with data(x,y chart cordinates)
-	   		//function makeChart(x, y) {
-
-	   		//};
-
-	   		//function make
-
-	   //II. function to set chart w/jquery selector on chart category btns, callsback function makeChart(I. function)
-			//want it to be so y cordinate stays constant with data as asteroid "name"
-	   		//x cordinate should be the property that is dynamically changed...so what do i put as the css selector?
-	   		//function setChart(){$('#magnitude').on("click", function () { alert("clicked magnitude")} }
-	   			//boiler function
-			   	function setChart() {
-				   		$('#magnitude').on('click', function(){
-				   			alert('clicked magnitude');
-				   		});
-				   		$('#diameter').on('click', function(){
-				   			alert('clicked diameter');
-				   		});
-				   		$('#velocity').on('click', function (){
-				   			alert('clicked on velocity');
-				   		});
-			   		}
-			   	setChart();
 	
-	
+
 	//Get req. to my server for username info.
 	$.get('/api/dailyneos', function (data){
 	 	//get username to render on view
 	 	allNeos = data.userName;	
 		
 		var neosHtml = template({ neos : allNeos });
-		//$('#neos-list').append(neosHtml);	
 	});	
 
 
@@ -170,11 +128,10 @@ $( function () {
 		//render daily count 
 		$results.append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 		
-		//Call getProps
+		//Call buildData on pageload 
 		buildData("speed");	
 		
 		//Make chart right after calling getProps
-		//pie chart
 		var myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
 		
 		$('#myChart').on('click', function (e){
@@ -186,7 +143,12 @@ $( function () {
  
 	});/*closing NASA get request*/	
 	
-
+	$('.neo-prop').on('click', function (e){
+		var property = $(this).attr('data-prop');
+		//console.log(property);
+		//build data on jQuery click
+		buildData(property);
+	});
 
 
 });/*closing load brace*/
