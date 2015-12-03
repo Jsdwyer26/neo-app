@@ -1,5 +1,5 @@
 $( function () {
-	//console.log('js works');
+	
 
 	//results element on mainuser.hbs
 	var $results = $('#results');
@@ -14,12 +14,34 @@ $( function () {
 	//get asteroid id...for user to save
 	var neoId;	
 
-/*	allNeoInfo = {"neoId": [ ], "allNeoContent": [ ]  };*/
+	/*allNeoInfo = {"neoId": [ ], "allNeoContent": [ ]  };*/
 
 	//property names for chart
 	var dataPie =[];
 	
-	
+	//function to generate random, vibrant colors. 
+	function rainbow(numOfSteps, step) {
+	    // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
+	    // Adam Cole, 2011-Sept-14
+	    // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
+	    var r, g, b;
+	    var h = step / numOfSteps;
+	    var i = ~~(h * 6);
+	    var f = h * 6 - i;
+	    var q = 1 - f;
+	    switch(i % 6){
+	        case 0: r = 1; g = f; b = 0; break;
+	        case 1: r = q; g = 1; b = 0; break;
+	        case 2: r = 0; g = 1; b = f; break;
+	        case 3: r = 0; g = q; b = 1; break;
+	        case 4: r = f; g = 0; b = 1; break;
+	        case 5: r = 1; g = 0; b = q; break;
+	    }
+	    var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
+	    return (c);
+	}
+	rainbow(1, 2);
+
 	/*var names = [],
 		magnitudes = [],
 		missDists = [],
@@ -55,60 +77,49 @@ $( function () {
 	var source = $('#neos-template').html();
 	var template = Handlebars.compile(source);
 
-	function getPropsToShow(propsToShow){
+	function keepMakingCharts(arr, numVal){
+		while (arr.length < numVal) {
 			
-				//gets each property out of each date's([prop]) neos' 
-					for(var i =0; i < allNeosObj.length; i++) {
-						
-						//path to info in allNeos obj for properties
-						neoInfo = allNeosObj[i][today][i];
-						console.log(neoInfo);
-						console.log(neoInfo.name);
-						
-						//gets each id for the neo. seperate from switch but prop is sibling of props in switch
-						neoId = neoInfo.neo_reference_id;
-						//console.log(neoId);
-
-						//value variable for chart
-						var value;
-						
-						/*if (propsToShow.indexOf("names") > -1) {
-								//console.log(neoInfo.name);
-								value = neoInfo.name;
-								console.log(value) }*/
-						if (propsToShow.indexOf("magnitude") > -1) {
-								value = neoInfo.absolute_magnitude_h;
-								console.log(value);
-						}  else if (propsToShow.indexOf("missDist") > -1) {
-								value = neoInfo.close_approach_data[0].miss_distance.miles;
-								console.log(value);
-						}	else if (propsToShow.indexOf("diameter") > -1) { 
-								value = neoInfo.estimated_diameter.feet.estimated_diameter_max;
-
-						}	else if (propsToShow.indexOf("approachDate") > -1) {
-								value = neoInfo.close_approach_data[0].close_approach_date;
-
-						}	else if (propsToShow.indexOf("speed") > -1) {
-								value = neoSpeedsInfo.kilometers_per_hour;	
-						}
-						
-						dataPie.push({
-							value: value,
-					        color:"rgb(255, 0, 0)",
-					        highlight: "#FF5A5E",
-					        label: "asteroid " + neoInfo.name
-						});
-					}	
-				}	
-
-	//function to get desired property from neo api
-	function getProps() {
-		//saving each property as an array: if search date is more than 1 day at a time
-		for(var prop in allNeosObj) {
-			//console.log(allNeosObj);
-			getPropsToShow(["names","missDist", "approachDate", "speed"]); 
 		}
-	}	
+	}
+
+	//new function
+	function buildData(prop) {
+		allNeosObj.forEach(function (day) {
+			
+			var todaysNeos = day[today];
+			
+			todaysNeos.forEach(function (neo){
+				var value;
+				if (prop === "diameter") {
+					value = neo.estimated_diameter.feet.estimated_diameter_max;
+					console.log(value); 
+				
+				} else if(prop === "magnitude") {
+					value = neo.absolute_magnitude_h;
+				
+				} else if (prop === "missDist" ) {
+					value = neo.close_approach_data[0].miss_distance.miles;
+				
+				} else if (prop === "approachDate") {
+					value = neo.close_approach_data[0].close_approach_date;
+				
+				} else if (prop === "speed") {
+					value = neo.close_approach_data[0].relative_velocity.miles_per_hour;
+				}
+				
+				dataPie.push({
+					value: value,
+					color:"rgb(255, 0, 0)",
+					highlight: "#FF5A5E",
+					label: "asteroid " + neo.name
+				});
+			});
+			//getPropsToShow(["names","missDist", "approachDate", "speed"]); 
+		});
+		console.log(dataPie);
+	}
+
 
 	//2 FUNCTIONS HERE TO BUILD CHART
 	   	//I. function to arrangeChart and render chart with data(x,y chart cordinates)
@@ -155,23 +166,27 @@ $( function () {
 		
 		//get element count; sibling of near_earth_objects array
 		dailyNeoCount = data.element_count;
-		//$('#neos-list').append(dailyCountHtml);
+		
 		//render daily count 
 		$results.append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 		
 		//Call getProps
-		getProps();	
+		buildData("speed");	
+		
 		//Make chart right after calling getProps
 		//pie chart
-		var myChart = new Chart(ctx).Doughnut(dataPie);
+		var myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
 		
+		$('#myChart').on('click', function (e){
+    		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
+    		// => activePoints is an array of segments on the canvas that are at the same position as the click event.
+			console.log(activePoints);
+		});
 		//render();
  
 	});/*closing NASA get request*/	
 	
 
-	/*$('#magnitude').on("click", function () {
-		alert("clicked");
-	});*/
+
 
 });/*closing load brace*/
