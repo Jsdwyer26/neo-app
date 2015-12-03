@@ -39,9 +39,9 @@ $( function () {
 
 	//HBS
 	//compile hb template
-	var source = $('#neos-template').html();
+/*	var source = $('#neos-template').html();
 	var template = Handlebars.compile(source);
-
+*/
 	//new function
 	function buildData(prop) {
 		//clear array dataset
@@ -107,13 +107,14 @@ $( function () {
 		
 		//Make chart right after calling build data func
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
-		legend(document.getElementById("doughnutLegend"), data, myDoughnutChart);
+		console.log(myDoughnutChart.generateLegend());
+		$('#pieLegend').append(myDoughnutChart.generateLegend());
 
 		//gets selected chart segment data
 		$('#myChart').on('click', function (e){
     		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
     		// => activePoints is an array of segments on the canvas that are at the same position as the click event.
-			console.log(activePoints[0].label);
+			console.log(activePoints[0]);
 		});
 		//render();
  
