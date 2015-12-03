@@ -17,31 +17,6 @@ $( function () {
 	//property names for chart
 	var dataPie =[];
 
-
-	
-	//function to generate random, vibrant colors. 
-	function rainbow(numOfSteps, step) {
-	    // This function generates vibrant, "evenly spaced" colours (i.e. no clustering). This is ideal for creating easily distinguishable vibrant markers in Google Maps and other apps.
-	    // Adam Cole, 2011-Sept-14
-	    // HSV to RBG adapted from: http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
-	    var r, g, b;
-	    var h = step / numOfSteps;
-	    var i = ~~(h * 6);
-	    var f = h * 6 - i;
-	    var q = 1 - f;
-	    switch(i % 6){
-	        case 0: r = 1; g = f; b = 0; break;
-	        case 1: r = q; g = 1; b = 0; break;
-	        case 2: r = 0; g = 1; b = f; break;
-	        case 3: r = 0; g = q; b = 1; break;
-	        case 4: r = f; g = 0; b = 1; break;
-	        case 5: r = 1; g = 0; b = q; break;
-	    }
-	    var c = "#" + ("00" + (~ ~(r * 255)).toString(16)).slice(-2) + ("00" + (~ ~(g * 255)).toString(16)).slice(-2) + ("00" + (~ ~(b * 255)).toString(16)).slice(-2);
-	    return (c);
-	}
-	console.log(randomColor());
-
 	//MOMENT
 	moment().format();
 	//save dates
@@ -97,7 +72,7 @@ $( function () {
 					value: value,
 					color: randomColor(),
 					highlight: "#FF5A5E",
-					label: "asteroid " + neo.name
+					label: "asteroid " + neo.name 
 				});
 			});
 		
@@ -124,15 +99,17 @@ $( function () {
 		//get element count; sibling of near_earth_objects array
 		dailyNeoCount = data.element_count;
 		
-		//render daily count 
+		//daily neo count rendered
 		$results.append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 		
 		//Call buildData on pageload 
 		buildData("speed");	
 		
-		//Make chart right after calling getProps
+		//Make chart right after calling build data func
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
-		
+		legend(document.getElementById("doughnutLegend"), data, myDoughnutChart);
+
+		//gets selected chart segment data
 		$('#myChart').on('click', function (e){
     		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
     		// => activePoints is an array of segments on the canvas that are at the same position as the click event.
