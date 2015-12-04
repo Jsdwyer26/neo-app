@@ -66,7 +66,14 @@ $( function () {
 				
 				} else if (prop === "velocity") {
 					value = neo.close_approach_data[0].relative_velocity.miles_per_hour;
-				}
+				
+				}/* else if (prop === " ") {
+
+				} else if (prop === " ") {				
+				
+				} else if (prop === " ") {				
+				
+				} else if (prop === " ") {*/
 				
 				dataPie.push({
 					value: value,
@@ -98,14 +105,15 @@ $( function () {
 		dailyNeoCount = data.element_count;
 		
 		//daily neo count rendered
-		$('#daily-count').append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
+		$('#daily-count').append('<h3 class="text-center"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 		
 		//Call buildData on pageload 
-		buildData("velocity");	
+		buildData("diameter");
 		
+	
 		//Make chart right after calling build data func
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
-		console.log(myDoughnutChart.generateLegend());
+		var placeTitle = $('#prop-title').append('<h3 class="text-center"> Comparing: Diameter </h3>');
 		$('#pieLegend').append(myDoughnutChart.generateLegend());
 
 		//gets selected chart segment data
@@ -122,6 +130,10 @@ $( function () {
 	$('.neo-prop').on('click', function (e){
 		myDoughnutChart.destroy();
 		var property = $(this).attr('data-prop');
+		console.log(property);
+
+		$('#prop-title').empty();
+		$('#prop-title').append('<h3 class="text-center"> Comparing: ' + property + '</h3>');
 		//build data on jQuery click
 		buildData(property);
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);

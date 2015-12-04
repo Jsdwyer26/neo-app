@@ -46,7 +46,15 @@ canvas {
     width: 400px;
 }
 
-#dailyCount {
+#titles {
 	padding-top: 30px;
 	padding-bottom: 30px;
+}
+
+.navbar-fixed-bottom{
+	background-color: #898885;
+}
+
+#bottom-nav {
+	color: white;
 }

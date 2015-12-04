@@ -1,14 +1,15 @@
 {{> header}}
 
    <div class="container-fluid" id="userhome-page">
-    <div class = "row">
-      <div class="col-md-6" id="daily-count"> </div> 
+    <div class = "row" id="titles">
+      <div class="col-md-6" id="prop-title"></div> 
+      <div class="col-md-6" id="daily-count"></div> 
     </div><!-- closing row -->
     
     
     <!-- chart -->
     <div class="row">
-      <div class = "col-md-6" id="daily-count">
+      <div class = "col-md-6">
         <canvas id="myChart" width="400" height="400"></canvas>
           <div id="pieLegend"></div>
       </div>
@@ -35,12 +36,12 @@
       <div class="container">
         <ul class= "nav navbar-nav">
           <li class="dropup">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Today's Properties </span> <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" id="bottom-nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Today's Properties</strong> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> &nbsp <span class="caret"></span></a>
             <ul class="dropdown-menu">
             <!-- Dropdown menu links -->
               <li><a href="#" class="neo-prop" data-prop="magnitude">Magnitude</a></li>
               <li><a href="#" class="neo-prop" data-prop="diameter">Diameter</a></li>
-              <li><a href="#" class="neo-prop" data-prop="velocty">Velocity</a></li>
+              <li><a href="#" class="neo-prop" data-prop="velocity">Velocity</a></li>
             </ul>
           </li>  
           </ul>
