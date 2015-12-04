@@ -1,0 +1,37 @@
+<!-- login.hbs -->
+{{> header }}
+
+	<div class ="container-fluid" id="login-page">
+		<div class="row text-center">
+			<div class="col-md-6 col-md-offset-3">
+				<h2 class="text-center" id="signup-header">Login to Daily Asteroid</h2>
+			</div>
+
+			<!-- signup form -->
+			 <div class="col-md-6 col-md-offset-3" id="login-area">
+				<form method="POST" action="/login">
+				  <div class="form-group">
+				    <input type="text" name="username" class="form-control" placeholder="Username" autofocus>
+				  </div>
+				  <div class="form-group">
+				    <input type="password" name="password" class="form-control" placeholder="Password">
+				  </div>
+				  <div class="form-group">
+				    <input type="submit" class="btn btn-block btn-primary" value="Log In">
+				  </div>
+				</form>
+			</div> <!-- closing col -->
+		</div><!-- closing row -->
+	</div><!-- closing container -->
+
+
+	<!-- jquery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+		<!-- bootstrap js -->
+	<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+
+</body>
+</html>
+

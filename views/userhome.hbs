@@ -1,39 +1,55 @@
 {{> header}}
 
-   <div class="container-fluid" id="userhome-page">
+   <div class="container" id="userhome-page">
+    <div class= "row">
+      <div class="col-md-12" id="daily-count"></div> 
+    </div> 
     <div class = "row" id="titles">
-      <div class="col-md-6" id="prop-title"></div> 
-      <div class="col-md-6" id="daily-count"></div> 
+      <div class="col-md-6 prop-title"></div>  
+      <div class="col-md-6"></div>
     </div><!-- closing row -->
-    
-    
+   
     <!-- chart -->
-    <div class="row">
+    <div class="row" id="board">
       <div class = "col-md-6">
         <canvas id="myChart" width="400" height="400"></canvas>
           <div id="pieLegend"></div>
       </div>
       <div class = "col-md-6">
+            
+            <h4 class="text-center" id="table-title">Asteroid: "(2013 RZ53)"</h4>
           <table class="table table-stripped table-bordered">
             <tr>
-              <th>Header1</th>
-              <th>Header2</th>
+              <th id="base">Thing/Prop to show</th>
+              <th>Asteroid: "(2013 RZ53)"</th>
             </tr>
             <tr>
-              <td>Row 1, Col 1</td>
-              <td>Row 1, Col 2</td>
+              <td id="base">Date</td>
+              <td>2015-12-04</td>
             </tr>
             <tr>
-              <td>Row 2, Col 1</td>
-              <td>Row 2, Row 2</td>
+              <td id="base">Magnitude</td>
+              <td>41</td>
+            </tr>
+            <tr>
+              <td id="base">Miss Distance</td>
+              <td>30 Lunar Distance(LD)</td>
+            </tr>
+            <tr>
+              <td id="base">Velocity</td>
+              <td>5967 mph</td>
+            </tr> 
+            <tr>
+              <td id="base">Diameter</td>
+              <td>Min: 5.25   Max: 11.74</td>
             </tr>
           </table>
       </div>
     </div>
 
-    <!-- <h3>Am I here?</h3> -->
+    
     <nav class="navbar navbar-inverse nav-justified navbar-fixed-bottom">
-      <div class="container">
+      <div class="container-fluid">
         <ul class= "nav navbar-nav">
           <li class="dropup">
             <a href="#" class="dropdown-toggle" id="bottom-nav" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><strong>Today's Properties</strong> <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> &nbsp <span class="caret"></span></a>
@@ -42,6 +58,7 @@
               <li><a href="#" class="neo-prop" data-prop="magnitude">Magnitude</a></li>
               <li><a href="#" class="neo-prop" data-prop="diameter">Diameter</a></li>
               <li><a href="#" class="neo-prop" data-prop="velocity">Velocity</a></li>
+              <li><a href="#" class="neo-prop" data-prop="velocity">Miss Distance</a></li>
             </ul>
           </li>  
           </ul>

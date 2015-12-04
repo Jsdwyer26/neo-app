@@ -4,38 +4,31 @@
 	margin-bottom: 0;
 }
 
-
-/*Index*/
-/*.jumbotron {
-	height: 300px;
-	top: 50px;
-	margin-bottom: 0;
+/*Nav Bar*/
+#page-title {
+	font-family: 'Exo 2', sans-serif;
+	font-weight: 900;
 }
-#main-body{
-background-color: rgba(0, 0, 0, .8);	
-padding-top: 8%;
-padding-bottom: 50px;
-}
-#main-intro {
+.navbar-brand {
 	color: white;
-	border: white dotted;
-	padding: 100px;
-	background-color: rgba(0, 0, 0, .5);
+	font-size: 25px;
 }
-*/
+
 
 /*Signup page*/
-#signup-form {
+/*#signup-form {
 	margin-top: 40px;
 }
+
 #signup-page {
 	background-color: rgba(0, 0, 0, .6);
 	padding-bottom: 300px;
 	padding-top: 100px;
 }
+
 #signup-header{
 	color: white;
-}
+}*/
 
 
 /*Userhome*/
@@ -47,11 +40,29 @@ canvas {
 }
 
 #titles {
+	font-family: 'Playfair Display', serif;
 	padding-top: 30px;
 	padding-bottom: 30px;
 }
 
-.navbar-fixed-bottom{
+#daily-count {
+	margin: 25px;
+}
+
+#count {
+	font-family: 'Playfair Display', serif;
+	font-size: 3.0em;
+}
+#table-title {
+	font-family: 'Playfair Display', serif;
+	font-size: 1.65em;
+}
+
+#board {
+	padding-bottom: 50px;
+}
+
+.navbar-fixed-bottom {
 	background-color: #898885;
 }
 

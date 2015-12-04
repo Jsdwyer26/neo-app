@@ -9,7 +9,7 @@ $( function () {
 
 	//get element count, which can be asteroid count per day if querying in one day time period
 	var dailyNeoCount;
-		//dailyCountObj = {};
+		
 	
 	//get asteroid id...for user to save
 	var neoId;	
@@ -67,13 +67,7 @@ $( function () {
 				} else if (prop === "velocity") {
 					value = neo.close_approach_data[0].relative_velocity.miles_per_hour;
 				
-				}/* else if (prop === " ") {
-
-				} else if (prop === " ") {				
-				
-				} else if (prop === " ") {				
-				
-				} else if (prop === " ") {*/
+				}
 				
 				dataPie.push({
 					value: value,
@@ -103,18 +97,16 @@ $( function () {
 		
 		//get element count; sibling of near_earth_objects array
 		dailyNeoCount = data.element_count;
-		
+	
 		//daily neo count rendered
-		$('#daily-count').append('<h3 class="text-center"> The daily neo count is: ' + dailyNeoCount + '</h3>');
+		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + dailyNeoCount + '</h3>');
 		
 		//Call buildData on pageload 
 		buildData("diameter");
-		
 	
 		//Make chart right after calling build data func
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
-		var placeTitle = $('#prop-title').append('<h3 class="text-center"> Comparing: Diameter </h3>');
-		$('#pieLegend').append(myDoughnutChart.generateLegend());
+		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Comparing: Diameter </h3>');
 
 		//gets selected chart segment data
 		$('#myChart').on('click', function (e){
