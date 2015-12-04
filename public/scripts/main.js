@@ -64,7 +64,7 @@ $( function () {
 				} else if (prop === "approachDate") {
 					value = neo.close_approach_data[0].close_approach_date;
 				
-				} else if (prop === "speed") {
+				} else if (prop === "velocity") {
 					value = neo.close_approach_data[0].relative_velocity.miles_per_hour;
 				}
 				
@@ -85,8 +85,6 @@ $( function () {
 	$.get('/api/dailyneos', function (data){
 	 	//get username to render on view
 	 	allNeos = data.userName;	
-		
-		var neosHtml = template({ neos : allNeos });
 	});	
 
 	var myDoughnutChart;
@@ -100,10 +98,10 @@ $( function () {
 		dailyNeoCount = data.element_count;
 		
 		//daily neo count rendered
-		$results.append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
+		$('#daily-count').append('<h3 class="text-center" id="dailyCount"> The daily neo count is: ' + dailyNeoCount + '</h3>');
 		
 		//Call buildData on pageload 
-		buildData("speed");	
+		buildData("velocity");	
 		
 		//Make chart right after calling build data func
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);

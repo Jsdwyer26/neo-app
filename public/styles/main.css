@@ -6,7 +6,7 @@
 
 
 /*Index*/
-.jumbotron {
+/*.jumbotron {
 	height: 300px;
 	top: 50px;
 	margin-bottom: 0;
@@ -22,7 +22,7 @@ padding-bottom: 50px;
 	padding: 100px;
 	background-color: rgba(0, 0, 0, .5);
 }
-
+*/
 
 /*Signup page*/
 #signup-form {
@@ -46,7 +46,7 @@ canvas {
     width: 400px;
 }
 
-
 #dailyCount {
 	padding-top: 30px;
+	padding-bottom: 30px;
 }
