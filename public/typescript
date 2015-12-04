@@ -6,4 +6,36 @@ Script started on Thu Dec  3 22:56:56 2015
 [J]2;scripts]1;scripts[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..ublic/scripts]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app/public/scripts[0m[27m[24m[J[01;32m➜ [01;32m [36mscripts [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=lls[?1l>
 ]2;ls -G]1;lsmain.js        neos.js        validations.js
 [1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..ublic/scripts]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app/public/scripts[0m[27m[24m[J[01;32m➜ [01;32m [36mscripts [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=nneo n  rrm neos.js[1m [0m[0m [?1l>
-]2;rm neos.js]1;rm[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..ublic/scripts]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app/public/scripts[0m[27m[24m[J[01;32m➜ [01;32m [36mscripts [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=
+]2;rm neos.js]1;rm[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..ublic/scripts]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app/public/scripts[0m[27m[24m[J[01;32m➜ [01;32m [36mscripts [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=...[?1l>
+]2;..]1;..[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..eo-app/public]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app/public[0m[27m[24m[J[01;32m➜ [01;32m [36mpublic [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=...[?1l>
+]2;..]1;..[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..velop/neo-app]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app[0m[27m[24m[J[01;32m➜ [01;32m [36mneo-app [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=ggit status[?1l>
+]2;git status]1;gitOn branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	[31mmodified:   public/scripts/main.js[m
+	[31mdeleted:    public/scripts/neos.js[m
+	[31mmodified:   public/scripts/validations.js[m
+	[31mmodified:   public/styles/main.css[m
+	[31mmodified:   views/partials/header.hbs[m
+	[31mdeleted:    views/partials/login.hbs[m
+	[31mmodified:   views/signup.hbs[m
+	[31mmodified:   views/userhome.hbs[m
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	[31mpublic/typescript[m
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..velop/neo-app]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app[0m[27m[24m[J[01;32m➜ [01;32m [36mneo-app [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=ggit c add . [?1l>
+]2;git add .]1;git[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..velop/neo-app]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app[0m[27m[24m[J[01;32m➜ [01;32m [36mneo-app [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=ggit commit -m "doing a 'sanity' commit"[?1l>
+]2;git commit -m "doing a 'sanity' commit"]1;git[master acebc4a] doing a 'sanity' commit
+ 9 files changed, 54 insertions(+), 60 deletions(-)
+ delete mode 100644 public/scripts/neos.js
+ create mode 100644 public/typescript
+ delete mode 100644 views/partials/login.hbs
+[1m[7m%[27m[1m[0m                                                                                                                           ]2;John@Johns-MacBook-Pro-2]1;..velop/neo-app]7;file://Johns-MacBook-Pro-2.local/Users/John/develop/neo-app[0m[27m[24m[J[01;32m➜ [01;32m [36mneo-app [01;34mgit:([31mmaster[34m) [33m✗[00m[00m[01;34m [00m[K[?1h=
