@@ -47,6 +47,7 @@ $( function () {
 		//clear array dataset
 		dataPie = [];
 
+
 		allNeosObj.forEach(function (day) {
 			var todaysNeos = day[today];
 			
@@ -54,19 +55,14 @@ $( function () {
 				var value;
 				if (prop === "diameter") {
 					value = neo.estimated_diameter.feet.estimated_diameter_max;
-				
 				} else if(prop === "magnitude") {
 					value = neo.absolute_magnitude_h;
-				
 				} else if (prop === "missDist" ) {
 					value = neo.close_approach_data[0].miss_distance.miles;
-				
 				} else if (prop === "approachDate") {
 					value = neo.close_approach_data[0].close_approach_date;
-				
 				} else if (prop === "velocity") {
 					value = neo.close_approach_data[0].relative_velocity.miles_per_hour;
-				
 				}
 				
 				dataPie.push({
@@ -89,7 +85,8 @@ $( function () {
 	});	
 
 	var myDoughnutChart;
-	//get neos from NASA api
+
+	
 	$.get(rootUrl, function (data){ 
 		//saving NASA data to empty array
 		allNeosObj.push(data.near_earth_objects);
@@ -99,9 +96,8 @@ $( function () {
 		dailyNeoCount = data.element_count;
 	
 		//daily neo count rendered
-		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + dailyNeoCount + '</h3>');
+		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + dailyNeoCount + '</strong></h3>');
 		
-		//Call buildData on pageload 
 		buildData("diameter");
 	
 		//Make chart right after calling build data func
@@ -111,18 +107,17 @@ $( function () {
 		//gets selected chart segment data
 		$('#myChart').on('click', function (e){
     		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
-    		// => activePoints is an array of segments on the canvas that are at the same position as the click event.
-			console.log(activePoints[0]);
 		});
 		//render();
  
 	});/*closing NASA get request*/	
 	
+
 	//jQuery for selecting Property to show
 	$('.neo-prop').on('click', function (e){
 		myDoughnutChart.destroy();
 		var property = $(this).attr('data-prop');
-		console.log(property);
+
 
 		$('#prop-title').empty();
 		$('#prop-title').append('<h3 class="text-center"> Comparing: ' + property + '</h3>');

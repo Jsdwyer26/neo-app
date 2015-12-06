@@ -52,15 +52,7 @@ app.get('/', function (req, res){
   res.render('userhome');
 });
 
-//Signup page route
-//show signup view
-/*app.get('/signup', function (req, res) {
-  if(req.user){
-    res.redirect('/userhome');
-  } else { 
-    res.render('signup', {user: req.user });
-  }
-});*/
+
 app.get('/signup', function (req, res){
   res.render('signup');
 });
