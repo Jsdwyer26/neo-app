@@ -41,8 +41,7 @@ canvas {
 
 #titles {
 	font-family: 'Playfair Display', serif;
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding: 30px;
 }
 
 #daily-count {

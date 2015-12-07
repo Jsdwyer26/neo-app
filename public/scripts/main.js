@@ -17,6 +17,9 @@ $( function () {
 	//property names for chart
 	var dataPie =[];
 
+	var neoHeadInfo =[];
+	var idInfo = [];
+
 	//MOMENT
 	moment().format();
 	//save dates
@@ -42,17 +45,23 @@ $( function () {
 /*	var source = $('#neos-template').html();
 	var template = Handlebars.compile(source);
 */
+
 	//new function
 	function buildData(prop) {
 		//clear array dataset
 		dataPie = [];
 
-
 		allNeosObj.forEach(function (day) {
+			console.log(allNeosObj);
 			var todaysNeos = day[today];
 			
 			todaysNeos.forEach(function (neo){
+				//console.log(neo);
 				var value;
+				//var neoId = neo.neo_reference_id;
+				//var neoName = neo.name;
+				//console.log(neoName);
+
 				if (prop === "diameter") {
 					value = neo.estimated_diameter.feet.estimated_diameter_max;
 				} else if(prop === "magnitude") {
@@ -71,12 +80,60 @@ $( function () {
 					highlight: "#FF5A5E",
 					label: "asteroid " + neo.name 
 				});
+				//console.log(dataPie);
+				neoHeadInfo.push({
+					id: neo.neo_reference_id,
+					name: neo.name 
+				});
+
 			});
-		
 		});
-		console.log(dataPie);
+		/*console.log(dataPie);*/
 	}
+
 	
+	function getIdData () {
+		neoHeadInfo = [];
+		idAsteroid =[];
+		idInfoObj = {};
+		//occurenceDate = [];
+
+		allNeosObj.forEach(function (day) {
+			var todaysNeos = day[today];
+			//console.log(todaysNeos);
+			
+			todaysNeos.forEach(function (neo){
+				//console.log(neo)
+				id = neo.neo_reference_id;
+				idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77"
+				
+				//get by each id for today's asteroids
+				$.get(idUrl, function (data){
+					console.log(data);
+					idInfoObj["id"] = data.neo_reference_id;
+					//console.log(idInfoObj); 
+					idInfo = data.close_approach_data;
+					//console.log(idInfo);
+
+					idInfo.forEach(function (asteroid, occurence){
+						//console.log(asteroid);
+						//console.log(occurence);
+						//console.log(asteroid.close_approach_date);
+						//idAsteroid.push({id: asteroid.close_approach_date});
+						idInfoObj.dates = asteroid.close_approach_date;
+						idAsteroid.push({"date": asteroid.close_approach_date});
+						//console.log(idAsteroid);
+						//console.log(idInfoObj);
+					})
+
+
+				});
+			});	
+		});
+	}
+ /* function idDetails () {
+
+  }*/
 
 	//Get req. to my server for username info.
 	$.get('/api/dailyneos', function (data){
@@ -86,7 +143,7 @@ $( function () {
 
 	var myDoughnutChart;
 
-	
+	//get NASA data
 	$.get(rootUrl, function (data){ 
 		//saving NASA data to empty array
 		allNeosObj.push(data.near_earth_objects);
@@ -99,9 +156,11 @@ $( function () {
 		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + dailyNeoCount + '</strong></h3>');
 		
 		buildData("diameter");
+		getIdData();
 	
 		//Make chart right after calling build data func
-		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
+		myDoughnutChart = new Chart(ctx).Doughnut(dataPie); 
+
 		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Comparing: Diameter </h3>');
 
 		//gets selected chart segment data
@@ -111,6 +170,7 @@ $( function () {
 		//render();
  
 	});/*closing NASA get request*/	
+
 	
 
 	//jQuery for selecting Property to show
