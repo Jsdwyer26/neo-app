@@ -118,7 +118,6 @@ $( function () {
 		myDoughnutChart.destroy();
 		var property = $(this).attr('data-prop');
 
-
 		$('#prop-title').empty();
 		$('#prop-title').append('<h3 class="text-center"> Comparing: ' + property + '</h3>');
 		//build data on jQuery click
