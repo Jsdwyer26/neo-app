@@ -49,7 +49,7 @@ $( function () {
 	var source = $('#dailyTable-template').html();
 	var template = Handlebars.compile(source);
 
-
+	
 
 	//new function
 	function buildData(prop) {
@@ -142,9 +142,11 @@ $( function () {
 		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + dailyNeoCount + '</strong></h3>');
 		buildData("missDist");
 		getIdData();
+		
 		//Make chart 
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie); 
 		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Comparing: Diameter </h3>');
+		
 		//Make table
 		var dailyTableHtml = template({ daily: dataTable });
 		$("#dailyTable").append(dailyTableHtml);
@@ -158,21 +160,27 @@ $( function () {
  
 	});/*closing NASA get request*/	
 
-
+	function capitalizeFirstLetter(string) {
+    	return string.charAt(0).toUpperCase() + string.slice(1);
+	}
 
 	//jQuery for selecting Property to show
 	$('.neo-prop').on('click', function (e){
-		myDoughnutChart.destroy();
-		$("#dailyTable").empty();
+		//declare clicked property to show
 		var property = $(this).attr('data-prop');
-		
+		var propTitle = capitalizeFirstLetter(property)
+		//clear existing chart and table
+		myDoughnutChart.destroy();
+		$('#prop-title').empty().append('<h3 class="text-center"> Comparing: ' + propTitle + '</h3>');
+		$("#dailyTable").empty().append( "<thead> <tr id='tableColName'> <th></th> <th>Name</th> <th>" + propTitle + " </th> </tr> </thead> <tbody>" );
 		
 
-		$('#prop-title').empty();
-		$('#prop-title').append('<h3 class="text-center"> Comparing: ' + property + '</h3>');
+		
 		//build data on jQuery click
 		buildData(property);
+		
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
+		
 		var dailyTableHtml = template({ daily: dataTable });
 		$("#dailyTable").append(dailyTableHtml);
 	});

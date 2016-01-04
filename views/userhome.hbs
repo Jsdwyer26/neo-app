@@ -17,13 +17,15 @@
       </div>
       
       <div class = "col-md-6">
-        <table class="table table-striped">
+        <table id="dailyTable" class="table table-striped">
           <thead>
+            <tr id="tableColName">
               <th></th>
               <th>Name</th>
               <th>Property</th>
+            </tr>
           </thead>
-          <tbody id="dailyTable">  
+          <tbody>  
             <script id="dailyTable-template" type="text/x-handlebars-template">
                 \{{#each daily }}
                 <tr>
