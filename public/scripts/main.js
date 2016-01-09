@@ -145,7 +145,7 @@ $( function () {
 		
 		//Make chart 
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie); 
-		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Comparing: Diameter </h3>');
+		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Todays Miss Distances </h3>');
 		
 		//Make table
 		var dailyTableHtml = template({ daily: dataTable });
@@ -171,7 +171,7 @@ $( function () {
 		var propTitle = capitalizeFirstLetter(property)
 		//clear existing chart and table
 		myDoughnutChart.destroy();
-		$('#prop-title').empty().append('<h3 class="text-center"> Comparing: ' + propTitle + '</h3>');
+		$('#prop-title').empty().append('<h3 class="text-center"> Todays ' + propTitle + '</h3>');
 		$("#dailyTable").empty().append( "<thead> <tr id='tableColName'> <th></th> <th>Name</th> <th>" + propTitle + " </th> </tr> </thead> <tbody>" );
 		
 

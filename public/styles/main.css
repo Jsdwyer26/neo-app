@@ -16,6 +16,8 @@
 
 table {
 	counter-reset: rowNumber;
+	font-family: 'Playfair Display', serif;
+	font-size: 1.25em;
 }
 table tr {
 	counter-increment: rowNumber;
@@ -48,6 +50,9 @@ canvas {
     display: block;
     width: 400px;
 }
+
+
+
 
 #titles {
 	font-family: 'Playfair Display', serif;
