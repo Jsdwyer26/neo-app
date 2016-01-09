@@ -29,6 +29,7 @@ mongoose.connect(
 
 // require Post and User models
 var User = require('./models/user');
+var NeoInfo = require('./models/neo');
     
 
 // middleware for auth

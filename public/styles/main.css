@@ -14,7 +14,19 @@
 	font-size: 25px;
 }
 
-
+table {
+	counter-reset: rowNumber;
+	font-family: 'Playfair Display', serif;
+	font-size: 1.25em;
+}
+table tr {
+	counter-increment: rowNumber;
+}
+table tr td:first-child::before {
+  content: counter(rowNumber);
+  min-width: 1em;
+  margin-right: 0.5em;
+}
 /*Signup page*/
 /*#signup-form {
 	margin-top: 40px;
@@ -39,10 +51,12 @@ canvas {
     width: 400px;
 }
 
+
+
+
 #titles {
 	font-family: 'Playfair Display', serif;
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding: 30px;
 }
 
 #daily-count {

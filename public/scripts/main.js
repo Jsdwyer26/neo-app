@@ -15,7 +15,11 @@ $( function () {
 	var neoId;	
 
 	//property names for chart
-	var dataPie =[];
+	var dataPie =[],
+		dataTable = [];
+
+	var neoHeadInfo =[];
+	var idInfo = [];
 
 	//MOMENT
 	moment().format();
@@ -42,17 +46,24 @@ $( function () {
 /*	var source = $('#neos-template').html();
 	var template = Handlebars.compile(source);
 */
+	var source = $('#dailyTable-template').html();
+	var template = Handlebars.compile(source);
+
+	
+
 	//new function
 	function buildData(prop) {
 		//clear array dataset
 		dataPie = [];
-
-
+		dataTable = [];
 		allNeosObj.forEach(function (day) {
+		
 			var todaysNeos = day[today];
 			
 			todaysNeos.forEach(function (neo){
+				//console.log(neo);
 				var value;
+
 				if (prop === "diameter") {
 					value = neo.estimated_diameter.feet.estimated_diameter_max;
 				} else if(prop === "magnitude") {
@@ -71,12 +82,46 @@ $( function () {
 					highlight: "#FF5A5E",
 					label: "asteroid " + neo.name 
 				});
+				dataTable.push({
+					name: neo.name,
+					value: value
+				});
+				console.log(dataTable);
+
+				neoHeadInfo.push({
+					id: neo.neo_reference_id,
+					name: neo.name 
+				});
 			});
-		
 		});
-		console.log(dataPie);
+		/*console.log(dataPie);*/
 	}
+
 	
+	function getIdData (id)	{
+		var neoHeadInfo = [],
+			idInfoObj = {},
+			ast = [];
+
+		allNeosObj.forEach(function (day) {
+			var todaysNeos = day[today];
+
+			todaysNeos.forEach(function (neo){
+				//id = neo.neo_reference_id;
+				//id = this.id;
+				id = "3735612"
+				idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77"
+				//get by each id for today's asteroids
+				$.get(idUrl, function (data){
+					var name = data.name;
+					neoHeadInfo.push({"data.name": data});
+				});
+			});	
+		});
+	}
+ /* function idDetails () {
+
+  }*/
 
 	//Get req. to my server for username info.
 	$.get('/api/dailyneos', function (data){
@@ -84,46 +129,60 @@ $( function () {
 	 	allNeos = data.userName;	
 	});	
 
+	var testData = [
+	{name: "my ast", value: 45968264},
+	{name: "my ast", value: 45968264}
+	];
 	var myDoughnutChart;
-
-	
+	//get NASA data
 	$.get(rootUrl, function (data){ 
-		//saving NASA data to empty array
 		allNeosObj.push(data.near_earth_objects);
-		console.log(allNeosObj);
-		
-		//get element count; sibling of near_earth_objects array
 		dailyNeoCount = data.element_count;
-	
-		//daily neo count rendered
+		//daily neo count
 		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + dailyNeoCount + '</strong></h3>');
+		buildData("missDist");
+		getIdData();
 		
-		buildData("diameter");
-	
-		//Make chart right after calling build data func
-		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
-		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Comparing: Diameter </h3>');
+		//Make chart 
+		myDoughnutChart = new Chart(ctx).Doughnut(dataPie); 
+		var placeTitle = $('#prop-title').append('<h3 class="text-center" id="prop-title"> Todays Miss Distances </h3>');
+		
+		//Make table
+		var dailyTableHtml = template({ daily: dataTable });
+		$("#dailyTable").append(dailyTableHtml);
 
 		//gets selected chart segment data
 		$('#myChart').on('click', function (e){
     		var activePoints = myDoughnutChart.getSegmentsAtEvent(e);
+    		/*console.log(activePoints[0].label);*/
 		});
 		//render();
  
 	});/*closing NASA get request*/	
-	
+
+	function capitalizeFirstLetter(string) {
+    	return string.charAt(0).toUpperCase() + string.slice(1);
+	}
 
 	//jQuery for selecting Property to show
 	$('.neo-prop').on('click', function (e){
-		myDoughnutChart.destroy();
+		//declare clicked property to show
 		var property = $(this).attr('data-prop');
+		var propTitle = capitalizeFirstLetter(property)
+		//clear existing chart and table
+		myDoughnutChart.destroy();
+		$('#prop-title').empty().append('<h3 class="text-center"> Todays ' + propTitle + '</h3>');
+		$("#dailyTable").empty().append( "<thead> <tr id='tableColName'> <th></th> <th>Name</th> <th>" + propTitle + " </th> </tr> </thead> <tbody>" );
+		
 
-
-		$('#prop-title').empty();
-		$('#prop-title').append('<h3 class="text-center"> Comparing: ' + property + '</h3>');
+		
 		//build data on jQuery click
 		buildData(property);
+		
 		myDoughnutChart = new Chart(ctx).Doughnut(dataPie);
+		
+		var dailyTableHtml = template({ daily: dataTable });
+		$("#dailyTable").append(dailyTableHtml);
 	});
 
 

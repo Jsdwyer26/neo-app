@@ -5,49 +5,45 @@
       <div class="col-md-12" id="daily-count"></div> 
     </div> 
     <div class = "row" id="titles">
-      <div class="col-md-6 prop-title"></div>  
+      <div class="col-md-6" id = "prop-title"></div>  
       <div class="col-md-6"></div>
     </div><!-- closing row -->
    
-    <!-- chart -->
+    <!-- chart and table -->
     <div class="row" id="board">
+      
       <div class = "col-md-6">
         <canvas id="myChart" width="400" height="400"></canvas>
-          <div id="pieLegend"></div>
       </div>
+      
       <div class = "col-md-6">
-            
-            <h4 class="text-center" id="table-title">Asteroid: "(2013 RZ53)"</h4>
-          <table class="table table-stripped table-bordered">
-            <tr>
-              <th id="base">Thing/Prop to show</th>
-              <th>Asteroid: "(2013 RZ53)"</th>
+        <table id="dailyTable" class="table table-striped">
+          <thead>
+            <tr id="tableColName">
+              <th></th>
+              <th>Asteroids</th>
+              <th>Miss Distance(AU)</th>
             </tr>
-            <tr>
-              <td id="base">Date</td>
-              <td>2015-12-04</td>
-            </tr>
-            <tr>
-              <td id="base">Magnitude</td>
-              <td>41</td>
-            </tr>
-            <tr>
-              <td id="base">Miss Distance</td>
-              <td>30 Lunar Distance(LD)</td>
-            </tr>
-            <tr>
-              <td id="base">Velocity</td>
-              <td>5967 mph</td>
-            </tr> 
-            <tr>
-              <td id="base">Diameter</td>
-              <td>Min: 5.25   Max: 11.74</td>
-            </tr>
-          </table>
+          </thead>
+          <tbody>  
+            <script id="dailyTable-template" type="text/x-handlebars-template">
+                \{{#each daily }}
+                <tr>
+                  <td> </td>
+                  <td>\{{name}}</td>
+                  <td>\{{value}}</td>
+                </tr>    
+                \{{/each}}
+            </script>
+          </tbody>
+        </table>
       </div>
     </div>
+    
 
     
+    
+
     <nav class="navbar navbar-inverse nav-justified navbar-fixed-bottom">
       <div class="container-fluid">
         <ul class= "nav navbar-nav">
