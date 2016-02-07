@@ -27,6 +27,11 @@ table tr td:first-child::before {
   min-width: 1em;
   margin-right: 0.5em;
 }
+
+#chart {
+  width="400";
+  height="400"
+}
 /*Signup page*/
 /*#signup-form {
 	margin-top: 40px;
