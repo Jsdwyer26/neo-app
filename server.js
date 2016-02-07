@@ -50,7 +50,7 @@ passport.deserializeUser(User.deserializeUser());
 
 // HOMEPAGE ROUTE
 app.get('/', function (req, res){
-  res.render('userhome');
+  res.render('index');
 });
 
 
