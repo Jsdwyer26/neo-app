@@ -12,15 +12,15 @@ $(function() {
   //HBS template = dailyTable-template.
   var source = $('#dailyTable-template').html();
   var template = Handlebars.compile(source);
-
+  
+  var dailyNeos = [],
+          dataTable = [],
+          dataPie = [],
+          neoId = [];
+  
   //NASA url's.
   var baseUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-11-27&end_date=2015-11-30&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
   var rootUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + tomorrow + "&end_date=" + tomorrow + "&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
-
-    var dailyNeos = [],
-        dataTable = [],
-        dataPie = [],
-        nedId;
 
   //Build daily count display.
   function dailyCount(data) {
@@ -32,6 +32,7 @@ $(function() {
   //Build data to be shown on table and pie chart.
   function buildData(prop) {
     var dailies = dailyNeos[0][date];
+    console.log(dailies);
 
     dailies.forEach(function(neo) {
       var value;
@@ -43,7 +44,10 @@ $(function() {
       dataPie.push(
         [neo.name, value]
       );
+      neoId.push(neo.neo_reference_id);
+
     });
+    console.log(neoId);
   }
 
   //Set table contents. Called in GET.
@@ -73,7 +77,7 @@ $(function() {
     });
   }
 
-  //GET NASA data.
+  //GET NASA daily data.
   $.get(rootUrl, function(data) {
     dailyNeos.push(data.near_earth_objects);
     dailyCount(data);
@@ -82,6 +86,13 @@ $(function() {
     makeChart();
   });
 
+  //GET NASA data on each daily asteroid.
+  function getIdData() {
+    console.log(neoId);
+    idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + 'id' + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
+    
+  }
+    getIdData();
 
 
 });
