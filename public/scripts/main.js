@@ -138,8 +138,9 @@ $( function () {
 	$.get(rootUrl, function (data){ 
 		allNeosObj.push(data.near_earth_objects);
 		dailyNeoCount = data.element_count;
-		//daily neo count
+		//Daily count.
 		$('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + dailyNeoCount + '</strong></h3>');
+		
 		buildData("missDist");
 		getIdData();
 		

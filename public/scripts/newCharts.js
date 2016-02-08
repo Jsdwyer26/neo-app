@@ -19,7 +19,8 @@ $(function() {
 
     var dailyNeos = [],
         dataTable = [],
-        dataPie = [];
+        dataPie = [],
+        nedId;
 
   //Build daily count display.
   function dailyCount(data) {
@@ -57,11 +58,16 @@ $(function() {
     c3.generate({
         data: {
           columns: dataPie,
-          type: 'pie'
+          type: 'bar'
         },
         axis: {
-          y2: {
-            show: true
+          x: {
+            type: 'category'
+          }
+        },
+        bar: {
+          width: {
+            ratio: 0.5
           }
         }
     });
