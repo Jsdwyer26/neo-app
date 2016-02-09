@@ -7,20 +7,20 @@ $(function() {
       tomorrow = moment().add(1, 'day').format("YYYY-MM-DD");
   
   //Date variable for dev. purposes.
-  var date = tomorrow;
+  var date = today;
 
   //HBS template = dailyTable-template.
   var source = $('#dailyTable-template').html();
   var template = Handlebars.compile(source);
-  
   var dailyNeos = [],
           dataTable = [],
           dataPie = [],
           neoId = [];
-  
   //NASA url's.
   var baseUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-11-27&end_date=2015-11-30&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
-  var rootUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + tomorrow + "&end_date=" + tomorrow + "&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
+  var rootUrl = "https://api.nasa.gov/neo/rest/v1/feed?start_date=" + today + "&end_date=" + today + "&api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
+
+    
 
   //Build daily count display.
   function dailyCount(data) {
@@ -30,7 +30,7 @@ $(function() {
   }
 
   //Build data to be shown on table and pie chart.
-  function buildData(prop) {
+  function buildData() {
     var dailies = dailyNeos[0][date];
     console.log(dailies);
 
@@ -86,13 +86,7 @@ $(function() {
     makeChart();
   });
 
-  //GET NASA data on each daily asteroid.
-  function getIdData() {
-    console.log(neoId);
-    idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + 'id' + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
     
-  }
-    getIdData();
 
 
 });
