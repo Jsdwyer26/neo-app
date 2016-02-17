@@ -19,7 +19,7 @@ table {
 	font-family: 'Playfair Display', serif;
 	font-size: 1.25em;
 }
-table tr {
+table tr:not(:first-child) {
 	counter-increment: rowNumber;
 }
 table tr td:first-child::before {

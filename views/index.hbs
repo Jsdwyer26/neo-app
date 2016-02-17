@@ -21,6 +21,7 @@
         <table id="dailyTable" class="table table-striped">
           <thead>
             <tr id="tableColName">
+              <th>#</th>
               <th>Asteroid Name</th>
               <th>Number of Earth Passings</th>
             </tr>
@@ -29,6 +30,7 @@
             <script id="dailyTable-template" type="text/x-handlebars-template">
             \{{#each daily }}
             <tr>
+              <td class="count"></td>
               <td>\{{name}}</td>
               <td>\{{value}}</td>
             </tr>
