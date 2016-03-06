@@ -1,4 +1,5 @@
 {{> header }}
+<a href="/showNeo">Show</a>
 <div class="container" id="userhome-page">
   <div class= "row">
     <div class="col-md-12" id="daily-count"></div>
@@ -18,7 +19,7 @@
       </div>
       
       <div class = "col-md-6">
-        <table id="dailyTable" class="table table-striped">
+        <table id="dailyTable" class="table table-striped table-hover">
           <thead>
             <tr id="tableColName">
               <th>#</th>
@@ -29,7 +30,7 @@
           <tbody>
             <script id="dailyTable-template" type="text/x-handlebars-template">
             \{{#each daily }}
-            <tr>
+            <tr data-url=\{{url}}>
               <td class="count"></td>
               <td>\{{name}}</td>
               <td>\{{value}}</td>
@@ -79,6 +80,6 @@
   <!-- handlebars -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.3/handlebars.min.js"></script>
   <!-- custom script -->
-  <script type="text/javascript" src="scripts/self.js"></script>
+  <script type="text/javascript" src="../scripts/last.js"></script>
 </body>
 </html>

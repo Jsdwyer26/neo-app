@@ -29,8 +29,8 @@ table tr td:first-child::before {
 }
 
 #chart {
-  width="400";
-  height="400"
+  width: "400";
+  height: "400"
 }
 /*Signup page*/
 /*#signup-form {
@@ -68,9 +68,9 @@ canvas {
 	margin: 25px;
 }
 
-#count {
+.countHeading {
 	font-family: 'Playfair Display', serif;
-	font-size: 3.0em;
+	/*font-size: 3.0em;*/
 }
 #table-title {
 	font-family: 'Playfair Display', serif;
@@ -88,3 +88,14 @@ canvas {
 #bottom-nav {
 	color: white;
 }
+
+/*STORY PAGE STYLES*/
+#storyCount {
+  width: 25px;
+}
+
+td {
+  font-family: 'Playfair Display', serif;
+}
+
+

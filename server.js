@@ -7,7 +7,8 @@ var express = require('express'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy;
+    LocalStrategy = require('passport-local').Strategy,
+    chartsHelper = require('./charts.js');
 
 // configure bodyParser (for receiving form data)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -53,9 +54,14 @@ app.get('/', function (req, res){
   res.render('index');
 });
 
-app.get('/neoShow', function (req, res) {
+app.get('/showNeo', function (req, res) {
   res.render('show');
 });
+app.get('/show/:id', function (req, res) {
+  var neoId = req.params.id;
+  var charts = chartsHelper;
+  res.render('show');
+}); 
 
 app.get('/signup', function (req, res){
   res.render('signup');
