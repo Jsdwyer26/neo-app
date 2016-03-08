@@ -31,35 +31,46 @@ $(function() {
           }
       });
   }
-  var countPast = 0;
-  var countFuture = 0;
-  var past = [];
-  var present = [];
-  var future = [];
-  var pastAndFuture = [];
-  var pastDates = [];
-  var futureDates = [];
-  var pastAndFutureDates = [];
+
+  var countPast = 0; // Past occurences count for heading
+  var countFuture = 0; // Future occurences count for heading
+  var present = []; // Data array for today's neo passing. Output of sortDates(). Input for .
+  var pastAndFuture = []; // DATES list for past&future passings. Output of sortDates(). Input for: .  
+  var pastDates = []; // Array of . Output of . Input for .
+  var futureDates = []; // Array of . Output of . Input for .
+  var pastAndFutureDates = []; // Array of . Output of . Input for .
   
+  var datesObj = 
+    {
+      past: [],
+      present: [],
+      future: [],
+      pastAndFuture: []
+    };
 
   function sortDates(dArr) {
       dArr.map(function(i) {
-        if (i.close_approach_date == today) {
-            present.push(i);
-        } else if (moment(i.close_approach_date).isBefore(today)) {
-            past.push(i);
-            pastDates.push(i.close_approach_date);
-            pastAndFuture.push(i);
-            pastAndFutureDates.push(i.close_approach_date);
-        } else if (moment(i.close_approach_date).isAfter(today)) {
-            futureDates.push(i.close_approach_date);
-            future.push(i);
-            pastAndFuture.push(i);
-            pastAndFutureDates.push(i.close_approach_date);          
-        }
+          var dateData = i.close_approach_date;
+
+          if (i.close_approach_date == today) {
+              present.push(i);
+              //datesObj.present = {today: i};
+          } else if (moment(dateData).isBefore(today)) {
+              countPast ++;
+              //datesObj.past.push([dateData, i]);
+              //datesObj.pastAndFuture.push([dateData, i]);
+              pastDates.push(i.close_approach_date);
+              pastAndFuture.push(i);
+              pastAndFutureDates.push(i.close_approach_date);
+          } else if (moment(i.close_approach_date).isAfter(today)) {
+              countFuture ++;
+              //datesObj.future.push([dateData, i]);
+              //datesObj.pastAndFuture.push([dateData, i]);
+              futureDates.push(i.close_approach_date);
+              pastAndFuture.push(i);
+              pastAndFutureDates.push(i.close_approach_date);          
+          }
       });
-      countPast = past.length;
-      countFuture = future.length;
   }
 
   Array.max = function(arr) {
@@ -108,14 +119,14 @@ $(function() {
       var tableTitle = $('#storyTableContainer').prepend('<h3 class="text-center countHeading">Passed Earth ' + countPast + ' times </h3> <h3 class="text-center countHeading">Will Pass Earth ' + countFuture + ' times </h3>');
   }
 
-  var datesObj = [];
+/*  var datesObjNew = [];
   function turnToDates(datesArr) {
       datesArr.map(function(i) {
           var date = new moment(i).format("YYYY-MM-DD");
-          datesObj.push(date);
+          datesObjNew.push(date);
       });
-      console.log(datesObj);
-  }
+      console.log(datesObjNew);
+  }*/
 
   function setTicks(datesArr) {
       // I. Turn string dates in date objects.
@@ -134,13 +145,14 @@ $(function() {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
-  // Make c3js chart.
+  // Make c3js missChart...chart mapping all the occernce's "miss distance". Do it in .miles for now.
   function makeMissChart(datesArr, valuesArr) {
+      //console.log(datesArr);
         var preserveDatesArr = datesArr;
         var preserveValuesArr = valuesArr;
         // Add 'x' as element at i[0] for c3js.
         datesArr.unshift('x');
-        preserveValuesArr.unshift('Miss Distance');
+        valuesArr.unshift('Miss Distance');
         var chart = c3.generate({
           bindto: '#missChart',
           size : {
@@ -191,10 +203,11 @@ $(function() {
             }
         });
   }
-  // Make c3js chart.
+  // Make c3js speedChart...chart mapping all the occernce's velocity. Do it in .mph for now.
   function makeSpeedChart(datesArr, valuesArr) {
+      //console.log(datesArr);
         // Add 'x' as element at i[0] for c3js.
-        datesArr.unshift('x');
+        //datesArr.unshift('x');
         valuesArr.unshift('Speed');
         var chart = c3.generate({
           bindto: '#speedChart',
@@ -281,6 +294,7 @@ $(function() {
       setHeading();
       getNeoAttr(pastAndFuture);
       setTable(pastAndFutureDates);
+      console.log(datesObj);
       //console.log(past, pastDates, future, futureDates);
       //setFooTable(pastDates);
       //charts.missChart(pastAndFutureDates, attrObj.miss);
@@ -289,7 +303,7 @@ $(function() {
   }
 
   $.get(idUrl, function(data) {
-    console.log(data);
+    //console.log(data);
     name = data.name;
     earthData(data);
 
