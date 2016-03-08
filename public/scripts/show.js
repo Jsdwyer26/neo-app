@@ -210,7 +210,7 @@ $(function() {
                   datesArr, 
                   valuesArr
               ],
-              //type: 'spline'
+              type: 'spline'
           },
           axis: {
               x: {
@@ -280,7 +280,7 @@ $(function() {
       sortDates(earthNeos);
       setHeading();
       getNeoAttr(pastAndFuture);
-      setTable(pastDates);
+      setTable(pastAndFutureDates);
       //console.log(past, pastDates, future, futureDates);
       //setFooTable(pastDates);
       //charts.missChart(pastAndFutureDates, attrObj.miss);
