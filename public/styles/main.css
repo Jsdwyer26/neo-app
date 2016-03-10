@@ -100,4 +100,14 @@ td {
 }
 
 
+.c3-region.regionToday {
+  fill: red;
+}
+.c3-region.regionPast {
+  fill: green;
+}
+.c3-region.regionCame {
+  fill: red;
+}
+
 
