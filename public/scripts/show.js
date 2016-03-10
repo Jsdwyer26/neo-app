@@ -200,7 +200,7 @@ $(function() {
                         return numberWithCommas(d) + ' miles';
                     }
                 } 
-            }
+          }
         });
   }
   // Make c3js speedChart...chart mapping all the occernce's velocity. Do it in .mph for now.
