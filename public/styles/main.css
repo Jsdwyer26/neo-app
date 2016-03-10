@@ -56,10 +56,7 @@ canvas {
     width: 400px;
 }
 
-
-
-
-#titles {
+.titles {
 	font-family: 'Playfair Display', serif;
 	padding: 30px;
 }

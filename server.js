@@ -60,7 +60,10 @@ app.get('/show/:id', function (req, res) {
   var neoId = req.params.id;
   var charts = chartsHelper;
   res.render('show');
-}); 
+});
+app.get('/about', function(req, res) {
+  res.render('about');
+}) 
 
 
 

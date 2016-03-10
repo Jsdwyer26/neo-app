@@ -140,7 +140,7 @@ $(function() {
   $.get(rootUrl, function(data) {
     todaysLst = data.near_earth_objects[today];
     buildUrlTuple(todaysLst);
-    $('#daily-count').append('<h3 class="text-center" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + todaysLst.length + '</strong></h3>');
+    $('#daily-count').append('<h1 class="text-center countHeading" id="count"> The Daily Asteroid Count Is: ' + '<strong>' + todaysLst.length + '</strong></h1>');
     eachReq(todaysTupleUrl);
   });
 
