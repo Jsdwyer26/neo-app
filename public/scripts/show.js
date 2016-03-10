@@ -1,25 +1,35 @@
 $(function() {
 
+// VARIABLES AND LOADED MODULES 
+  
+  // Get neo id from url params and set as id. 
   //console.log(window.location.pathname);
   var url = window.location.pathname;
   var id = url.substring(url.lastIndexOf('/') + 1);
-  console.log(id);
-
-  // Mock url. Just to get data now.
-  var idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
-
-  var neoData = [];
-  var earthNeos = [];
-  var otherNeos = [];
-  var name;
+  var idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77"
   // Momentjs
   moment().format();
   var today = new moment().format("YYYY-MM-DD");
-
+  var earthNeos = []; // Collect data of the neos that pass just Earth.
+  var otherNeos = []; // Collect data of the neos that pass body other than Earth.
+  var name; // Asteroid Name 
+  var countPast = 0; // Past occurences count for heading
+  var countFuture = 0; // Future occurences count for heading
+  var neoObj = // Main neo data object.
+    {
+      allData: [],
+      past: [],
+      present: [],
+      future: [],
+      pastAndFuture: [],
+      pastAndFutureLst: []
+    };
   // HBS
   var source = $('#storyTable-template').html();
   var template = Handlebars.compile(source);
 
+
+// FUNCTIONS
 
   // Make sure Earth is the neo's orbiting body and count the number that are. 
   function checkOrbit(dArr) {
@@ -31,47 +41,50 @@ $(function() {
           }
       });
   }
-
-  var countPast = 0; // Past occurences count for heading
-  var countFuture = 0; // Future occurences count for heading
-  var present = []; // Data array for today's neo passing. Output of sortDates(). Input for .
-  var pastAndFuture = []; // DATES list for past&future passings. Output of sortDates(). Input for: .  
-  var pastDates = []; // Array of . Output of . Input for .
-  var futureDates = []; // Array of . Output of . Input for .
-  var pastAndFutureDates = []; // Array of . Output of . Input for .
-  
-  var datesObj = 
-    {
-      past: [],
-      present: [],
-      future: [],
-      pastAndFuture: []
-    };
-
+  // Collect and organize data into neoObj. This is where I'll get and store all my data on the neo. 
   function sortDates(dArr) {
-      dArr.map(function(i) {
-          var dateData = i.close_approach_date;
-
-          if (i.close_approach_date == today) {
-              present.push(i);
-              //datesObj.present = {today: i};
-          } else if (moment(dateData).isBefore(today)) {
+      
+      for(var i = 0; i < dArr.length; i++) {
+          var d = dArr[i];  // Accesses the data at current index.
+          neoObj.allData.push([d.close_approach_date, {
+              missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+              speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+          }]);
+          // Categorize by date.
+          if (d.close_approach_date == today) {
+              console.log(d);
+              neoObj.present.push([today, {
+                  missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+                  speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+              }]);
+          } else if (moment(d.close_approach_date).isBefore(today)) { // Neos that already passed
               countPast ++;
-              //datesObj.past.push([dateData, i]);
-              //datesObj.pastAndFuture.push([dateData, i]);
-              pastDates.push(i.close_approach_date);
-              pastAndFuture.push(i);
-              pastAndFutureDates.push(i.close_approach_date);
-          } else if (moment(i.close_approach_date).isAfter(today)) {
+              neoObj.past.push([d.close_approach_date, 
+                { 
+                  missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+                  speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+              }]);
+              neoObj.pastAndFuture.push([d.close_approach_date, 
+                { 
+                  missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+                  speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+              }]);
+          } else if (moment(d.close_approach_date).isAfter(today)) { // Neos to come in the future.
               countFuture ++;
-              //datesObj.future.push([dateData, i]);
-              //datesObj.pastAndFuture.push([dateData, i]);
-              futureDates.push(i.close_approach_date);
-              pastAndFuture.push(i);
-              pastAndFutureDates.push(i.close_approach_date);          
+               neoObj.future.push([d.close_approach_date, 
+                { 
+                  missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+                  speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+              }]);
+              neoObj.pastAndFuture.push([d.close_approach_date, 
+                { 
+                  missMi: (Math.round(d.miss_distance.miles * 100) / 100).toFixed(2),
+                  speedMph: (Math.round(d.relative_velocity.miles_per_hour * 100) / 100).toFixed(2) 
+              }]);      
           }
-      });
+      }
   }
+
 
   Array.max = function(arr) {
       return Math.max.apply(Math, arr);
@@ -89,48 +102,15 @@ $(function() {
     //console.log(Array.min(arrInt), Array.max(arrInt), avg);
   }
   
-  // Outputs attrVals data array.
-  var attrVals = [];
-  var newAttrValsArr = [];
-  var attrObj = { 
-      "miss": [],
-      "speedMph": [],
-      "speedKmh": [],
-      "speedKms": []
-  };
-  function getNeoAttr(dArr) {
-      //console.log(dArr);
-      dArr.forEach(function(i) {
-          //console.log((Math.round(i.relative_velocity.miles_per_hour * 100) / 100).toFixed(2));
-          // Round to 2 decimals. 
-          attrVals.push([(Math.round(i.miss_distance.lunar * 100) / 100).toFixed(2), (Math.round(i.relative_velocity.miles_per_hour * 100) / 100).toFixed(2)]);
-          attrObj.miss.push((Math.round(i.miss_distance.miles * 100) / 100).toFixed(2));
-          attrObj.speedMph.push((Math.round(i.relative_velocity.miles_per_hour * 100) / 100).toFixed(2));
-          attrObj.speedKmh.push((Math.round(i.relative_velocity.kilometers_per_hour * 100) / 100).toFixed(2));
-          attrObj.speedKms.push((Math.round(i.relative_velocity.kilometers_per_second * 100) / 100).toFixed(2));
-        
-      });
-      average(attrVals);
-  }
-
   // Set page title--Name and Earth passings count.
   function setHeading() {
       var neoName = $('#show-heading').append('<h1 class="countHeading"> Asteroid ' + '<strong>' + name + '</strong><hr></h1> ');
       var tableTitle = $('#storyTableContainer').prepend('<h3 class="text-center countHeading">Passed Earth ' + countPast + ' times </h3> <h3 class="text-center countHeading">Will Pass Earth ' + countFuture + ' times </h3>');
   }
 
-/*  var datesObjNew = [];
-  function turnToDates(datesArr) {
-      datesArr.map(function(i) {
-          var date = new moment(i).format("YYYY-MM-DD");
-          datesObjNew.push(date);
-      });
-      console.log(datesObjNew);
-  }*/
-
   function setTicks(datesArr) {
       // I. Turn string dates in date objects.
-      turnToDates(datesArr);
+      //turnToDates(datesArr);
       // II. Get min date object and date string. Tick Point 1.
       var minObj = moment.min(datesObj);
       var minDate = minObj._i;
@@ -144,48 +124,91 @@ $(function() {
   function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+  
+  var datesLst = ['x'];
+  var missLst = ['Miss Distance'];
+  var speedsLst = ['Speed'];
+  function chartHelper(dArr, yProp) {
+      var prop;
+      var propLst;
+      dArr.forEach(function(i) {  
+          if(yProp === 'missDst') {
+              propLst = missLst;
+              prop = 'missMi';
+          } else if(yProp === 'speed'){
+              console.log('foo');
+              propLst = speedsLst;
+              prop = 'speedMph';
+          } 
+          datesLst.push(i[0]);
+          propLst.push(i[1][prop]); // Dynamic key swapping works only with str var and bracket notation.
+        });
+  }
 
   // Make c3js missChart...chart mapping all the occernce's "miss distance". Do it in .miles for now.
-  function makeMissChart(datesArr, valuesArr) {
-      //console.log(datesArr);
-        var preserveDatesArr = datesArr;
-        var preserveValuesArr = valuesArr;
-        // Add 'x' as element at i[0] for c3js.
-        datesArr.unshift('x');
-        valuesArr.unshift('Miss Distance');
+  function makeMissChart(dArr) {
+        chartHelper(dArr, "missDst");
         var chart = c3.generate({
           bindto: '#missChart',
-          size : {
-            width: 825,
-            height: 480
-          },
+          size : { width: 825, height: 480 },
           data: {
               x: 'x',
               xFormat: '%Y-%m-%d',
-            columns: [
-              datesArr, 
-              valuesArr
-            ],
+            columns: [ datesLst, missLst ],
             type: 'spline'
           },
           axis: {
               x: {
                 type: 'timeseries',
-                tick: {
-                  fit: false,
-                  format: '%Y'
-                },
+                tick: { fit: false, format: '%Y' },
               },
               y: {
                 tick: {
-                  format: function(d) {
-                    return numberWithCommas(d);
-                  }
+                  format: function(d) { return numberWithCommas(d); }
                 },
-                label: {
-                    text: 'Miles',
-                    position: 'outer-middle'
-                }
+                label: { text: 'Miles', position: 'outer-middle' }
+              }
+          },  
+          tooltip: {
+              format: {
+                  title: function(d) {
+                      // D3js time formatting https://github.com/mbostock/d3/wiki/Time-Formatting.
+                      var format = d3.time.format('%Y-%m-%d');
+                      //console.log(d);
+                      return format(d);
+                  },
+                  value: function(d) { return numberWithCommas(d) + ' miles'; }
+              } 
+          },
+          regions: [
+            { start: today, end: today, class: 'regionToday' },
+            { end: today, class: 'regionPast' },
+            { start: today, class: 'regionCame'}
+          ]
+        });
+  }
+
+  function makeSpeedChart(dArr) {
+        chartHelper(dArr, "speed");
+        var chart = c3.generate({
+          bindto: '#speedChart',
+          size : { width: 825, height: 480 },
+          data: {
+              x: 'x',
+              xFormat: '%Y-%m-%d',
+            columns: [ datesLst, speedsLst ],
+            type: 'spline'
+          },
+          axis: {
+              x: {
+                type: 'timeseries',
+                tick: { fit: true, format: '%Y' },
+              },
+              y: {
+                tick: {
+                  format: function(d) { return numberWithCommas(d); }
+                },
+                label: { text: 'Mph', position: 'outer-middle' }
               }
           },  
           tooltip: {
@@ -196,82 +219,27 @@ $(function() {
                         //console.log(d);
                         return format(d);
                     },
-                    value: function(d) {
-                        return numberWithCommas(d) + ' miles';
-                    }
+                    value: function(d) { return numberWithCommas(d) + ' mph'; }
                 } 
-          }
+            },
+          regions: [
+            { start: today, end: today, class: 'regionToday' },
+            { end: today, class: 'regionPast' },
+            { start: today, class: 'regionCame'}
+          ]
         });
   }
-  // Make c3js speedChart...chart mapping all the occernce's velocity. Do it in .mph for now.
-  function makeSpeedChart(datesArr, valuesArr) {
-      //console.log(datesArr);
-        // Add 'x' as element at i[0] for c3js.
-        //datesArr.unshift('x');
-        valuesArr.unshift('Speed');
-        var chart = c3.generate({
-          bindto: '#speedChart',
-          size : {
-              width: 825,
-              height: 480
-          },
-          data: {
-              x: 'x',
-              xFormat: '%Y-%m-%d',
-              columns: [
-                  // Dates and vaules.
-                  datesArr, 
-                  valuesArr
-              ],
-              type: 'spline'
-          },
-          axis: {
-              x: {
-                type: 'timeseries',
-                tick: {
-                  fit: false,
-                  format: '%Y'
-                }
-              },
-              y: {
-                tick: {
-                    format: function(d) {
-                      return numberWithCommas(d);
-                    } 
-                },
-                label: {
-                    text: 'Miles',
-                    position: 'outer-middle'
-                } 
-              }
-          },
-          tooltip: {
-              format: {
-                  title: function(d) {
-                    // D3js time formatting https://github.com/mbostock/d3/wiki/Time-Formatting.
-                    var format = d3.time.format('%Y-%m-%d');
-                    return format(d); 
-                  },
-                  value: function(d) {
-                    return numberWithCommas(d) + ' mph';
-                  }
-              } 
-          },
-        });
-        //datesArr.shift();
-        /*valuesArr.shift();*/
-  }
-
-
 
   // Sets table.
-  function setTable(arr) {
+  function setTable(dArr) {
       var dataTable = [];
-      arr.forEach(function(i) {
+      for(var k in dArr) {
+          console.log();
           dataTable.push({
-              value: i
+                value: dArr[k][0]
           });
-      });
+      }
+
       var storyTableHtml = template({
           story: dataTable
       });
@@ -292,14 +260,11 @@ $(function() {
       checkOrbit(data.close_approach_data);
       sortDates(earthNeos);
       setHeading();
-      getNeoAttr(pastAndFuture);
-      setTable(pastAndFutureDates);
-      console.log(datesObj);
-      //console.log(past, pastDates, future, futureDates);
+      setTable(neoObj.pastAndFuture);
+      console.log(neoObj.allData);
       //setFooTable(pastDates);
-      //charts.missChart(pastAndFutureDates, attrObj.miss);
-      makeMissChart(pastAndFutureDates, attrObj.miss);
-      makeSpeedChart(pastAndFutureDates, attrObj.speedMph);
+      makeMissChart(neoObj.allData);
+      makeSpeedChart(neoObj.allData);
   }
 
   $.get(idUrl, function(data) {
