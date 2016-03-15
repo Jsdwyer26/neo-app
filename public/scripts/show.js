@@ -10,6 +10,8 @@ $(function() {
   // Momentjs
   moment().format();
   var today = new moment().format("YYYY-MM-DD");
+  //var sixM = today.add(6, 'months').format("YYYY-MM-DD");
+  console.log();
   var earthNeos = []; // Collect data of the neos that pass just Earth.
   var otherNeos = []; // Collect data of the neos that pass body other than Earth.
   var name; // Asteroid Name 
@@ -146,6 +148,8 @@ $(function() {
 
   // Make c3js missChart...chart mapping all the occernce's "miss distance". Do it in .miles for now.
   function makeMissChart(dArr) {
+        var toSix = moment(today).add(6, 'months').format("YYYY-MM-DD");
+        var fromSix  = moment(today).subtract(6, 'months').format("YYYY-MM-DD")
         chartHelper(dArr, "missDst");
         var chart = c3.generate({
           bindto: '#missChart',
@@ -180,9 +184,9 @@ $(function() {
               } 
           },
           regions: [
-            { start: today, end: today, class: 'regionToday' },
-            { end: today, class: 'regionPast' },
-            { start: today, class: 'regionCame'}
+            { start: fromSix, end: toSix, class: 'regionToday' },
+            { end: fromSix, class: 'regionPast' },
+            { start: toSix, class: 'regionCame'}
           ]
         });
   }
