@@ -31,17 +31,14 @@ app.get('/show/:id', function (req, res) {
 });
 app.get('/about', function(req, res) {
   res.render('about');
-}) 
+}) ;
 
 
 
 //API ROUTES
-app.get('/api/dailyneos', function (req, res) { // Users no longer exist. Pass in number of occurences data.
-/*  User.find(function (err, allDailyNeos){
-    res.json({userName: allDailyNeos});
-  });*/
-});
+/*app.get('/api/dailyneos', function (req, res) { // Users no longer exist. Pass in number of occurences data.
 
+});*/
 
 
 //start server 

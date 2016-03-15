@@ -136,7 +136,6 @@ $(function() {
               propLst = missLst;
               prop = 'missMi';
           } else if(yProp === 'speed'){
-              console.log('foo');
               propLst = speedsLst;
               prop = 'speedMph';
           } 

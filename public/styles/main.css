@@ -32,21 +32,6 @@ table tr td:first-child::before {
   width: "400";
   height: "400"
 }
-/*Signup page*/
-/*#signup-form {
-	margin-top: 40px;
-}
-
-#signup-page {
-	background-color: rgba(0, 0, 0, .6);
-	padding-bottom: 300px;
-	padding-top: 100px;
-}
-
-#signup-header{
-	color: white;
-}*/
-
 
 /*Userhome*/
 canvas {
