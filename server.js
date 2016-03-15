@@ -3,11 +3,6 @@ var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     hbs = require('hbs'),
-    mongoose = require('mongoose'),
-    /*cookieParser = require('cookie-parser'),
-    session = require('express-session'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,*/
     chartsHelper = require('./charts.js');
 
 // configure bodyParser (for receiving form data)
@@ -19,33 +14,6 @@ app.use(express.static(__dirname + '/public'));
 // set view engine to hbs (handlebars)
 app.set('view engine', 'hbs');
 hbs.registerPartials(__dirname + '/views/partials');
-
-// connect to mongodb
-//connect to mongodb
-mongoose.connect(
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/neo-app'
-  );
-
-// require Post and User models
-
-    
-
-// middleware for auth
-/*app.use(cookieParser());
-app.use(session({
-  secret: 'supersecretkey',
-  resave: false,
-  saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
-// passport config
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());*/
 
 
 // HOMEPAGE ROUTE
@@ -69,9 +37,9 @@ app.get('/about', function(req, res) {
 
 //API ROUTES
 app.get('/api/dailyneos', function (req, res) { // Users no longer exist. Pass in number of occurences data.
-  User.find(function (err, allDailyNeos){
+/*  User.find(function (err, allDailyNeos){
     res.json({userName: allDailyNeos});
-  });
+  });*/
 });
 
 

@@ -41,7 +41,6 @@ $(function() {
       "name": dObj.name,
       "value": dObj.close_approach_data.length
     });
-    console.log(eachTuple);
   }
 
   // Inputs: eachTuple[]
@@ -57,13 +56,10 @@ $(function() {
       urls.push('/show/' + i[1]);
     });
   }
-
-  function setForRows(dTup) {
-    console.log(dTup);
-  }
-  setForRows();
+  
   // Build c3.js chart
   // Inputs: 
+  
   function buildChart(d) {
     console.log(d);
     //splitTuples(d);
@@ -72,8 +68,8 @@ $(function() {
       data: {
         columns: d,
         type: 'donut',
-        onclick: function(d, elem) {
-          console.log(d);
+        onclick: function() {
+          console.log(arguments);
         }
       },
       donut: {
@@ -94,9 +90,6 @@ $(function() {
           }
         }
       }
-    });
-    d3.select('#chart').on('click', function(d) {
-      console.log(d);
     });
   }
 
