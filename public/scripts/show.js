@@ -6,7 +6,7 @@ $(function() {
   //console.log(window.location.pathname);
   var url = window.location.pathname;
   var id = url.substring(url.lastIndexOf('/') + 1);
-  var idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77"
+  var idUrl = "https://api.nasa.gov/neo/rest/v1/neo/" + id + "?api_key=KjIyXoQcYUWnl10kdwABKaIVU65Hiy8vvlW44Y77";
   // Momentjs
   moment().format();
   var today = new moment().format("YYYY-MM-DD");
@@ -107,7 +107,7 @@ $(function() {
   // Set page title--Name and Earth passings count.
   function setHeading() {
       var neoName = $('#show-heading').append('<h1 class="countHeading"> Asteroid ' + '<strong>' + name + '</strong><hr></h1> ');
-      var tableTitle = $('#storyTableContainer').prepend('<h3 class="text-center countHeading">Passed Earth ' + countPast + ' times </h3> <h3 class="text-center countHeading">Will Pass Earth ' + countFuture + ' times </h3>');
+      var tableTitle = $('#chartTitle').prepend('<h3 class="text-center countHeading">Passed Earth ' + countPast + ' times </h3> <h3 class="text-center countHeading">Will Pass Earth ' + countFuture + ' times </h3>');
   }
 
   function setTicks(datesArr) {
@@ -130,6 +130,7 @@ $(function() {
   var datesLst = ['x'];
   var missLst = ['Miss Distance'];
   var speedsLst = ['Speed'];
+  // For C3.js. Need to append this as first elem in arr.
   function chartHelper(dArr, yProp) {
       var prop;
       var propLst;
@@ -147,17 +148,20 @@ $(function() {
   }
 
   // Make c3js missChart...chart mapping all the occernce's "miss distance". Do it in .miles for now.
-  function makeMissChart(dArr) {
-        var toSix = moment(today).add(6, 'months').format("YYYY-MM-DD");
-        var fromSix  = moment(today).subtract(6, 'months').format("YYYY-MM-DD")
-        chartHelper(dArr, "missDst");
-        var chart = c3.generate({
-          bindto: '#missChart',
+  function makeChart(dArr, chartType, elemId, dataLst, units) {  //chartType, elemId, lst, unitOf
+    var toSix = moment(today).add(6, 'months').format("YYYY-MM-DD");
+    var fromSix  = moment(today).subtract(6, 'months').format("YYYY-MM-DD")
+    // Variable for chart (missDst, speed)
+    chartHelper(dArr, chartType);
+    c3.generate({
+          // elemId is whichever chart being appended to in DOM (#missChart / #speedChart)
+          bindto: d3.select(elemId),
           size : { width: 825, height: 480 },
           data: {
               x: 'x',
               xFormat: '%Y-%m-%d',
-            columns: [ datesLst, missLst ],
+            // Lst of data (missLst, speedsLst)
+            columns: [ datesLst, dataLst],
             type: 'spline'
           },
           axis: {
@@ -169,7 +173,8 @@ $(function() {
                 tick: {
                   format: function(d) { return numberWithCommas(d); }
                 },
-                label: { text: 'Miles', position: 'outer-middle' }
+                // unit of measuremeant(miles, mph)
+                label: { text: units, position: 'outer-middle' }
               }
           },  
           tooltip: {
@@ -180,7 +185,8 @@ $(function() {
                       //console.log(d);
                       return format(d);
                   },
-                  value: function(d) { return numberWithCommas(d) + ' miles'; }
+                  // Unit of (miles, mph)
+                  value: function(d) { return numberWithCommas(d) + ' '+ units }
               } 
           },
           regions: [
@@ -189,48 +195,13 @@ $(function() {
             { start: toSix, class: 'regionCame'}
           ]
         });
+  
   }
-
-  function makeSpeedChart(dArr) {
-        chartHelper(dArr, "speed");
-        var chart = c3.generate({
-          bindto: '#speedChart',
-          size : { width: 825, height: 480 },
-          data: {
-              x: 'x',
-              xFormat: '%Y-%m-%d',
-            columns: [ datesLst, speedsLst ],
-            type: 'spline'
-          },
-          axis: {
-              x: {
-                type: 'timeseries',
-                tick: { fit: true, format: '%Y' },
-              },
-              y: {
-                tick: {
-                  format: function(d) { return numberWithCommas(d); }
-                },
-                label: { text: 'Mph', position: 'outer-middle' }
-              }
-          },  
-          tooltip: {
-                format: {
-                    title: function(d) {
-                        // D3js time formatting https://github.com/mbostock/d3/wiki/Time-Formatting.
-                        var format = d3.time.format('%Y-%m-%d');
-                        //console.log(d);
-                        return format(d);
-                    },
-                    value: function(d) { return numberWithCommas(d) + ' mph'; }
-                } 
-            },
-          regions: [
-            { start: today, end: today, class: 'regionToday' },
-            { end: today, class: 'regionPast' },
-            { start: today, class: 'regionCame'}
-          ]
-        });
+  // Sets chart. If calling makeChart() in GET req., it messes with the onmouseover effect on the chart rendered second. Works if done in a function.
+  function setChart(data) {
+      var chartData = data;
+      makeChart(chartData, 'speed', '#speedChart', speedsLst, 'Mph');
+      makeChart(chartData, 'missDst', '#missChart', missLst, 'Miles');
   }
 
   // Sets table.
@@ -266,8 +237,7 @@ $(function() {
       setTable(neoObj.pastAndFuture);
       console.log(neoObj.allData);
       //setFooTable(pastDates);
-      makeMissChart(neoObj.allData);
-      makeSpeedChart(neoObj.allData);
+      setChart(neoObj.allData);
   }
 
   $.get(idUrl, function(data) {
